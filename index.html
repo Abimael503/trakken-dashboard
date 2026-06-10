@@ -7,623 +7,288 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --teal: #1D9E75;
-      --teal-light: #E1F5EE;
-      --teal-mid: #5DCAA5;
-      --teal-dark: #0F6E56;
-      --bg: #F7F8FA;
-      --surface: #FFFFFF;
-      --border: rgba(0,0,0,0.08);
-      --text: #1A1A1A;
-      --text-muted: #6B7280;
-      --text-hint: #9CA3AF;
+      --teal: #1D9E75; --teal-light: #E1F5EE; --teal-mid: #5DCAA5;
+      --bg: #F7F8FA; --surface: #FFFFFF; --border: rgba(0,0,0,0.08);
+      --text: #1A1A1A; --text-muted: #6B7280; --text-hint: #9CA3AF;
       --green-bg: #EAF3DE; --green-text: #3B6D11;
       --amber-bg: #FAEEDA; --amber-text: #854F0B;
-      --red-bg: #FCEBEB;   --red-text: #A32D2D;
-      --radius: 10px;
-      --radius-lg: 14px;
+      --red-bg: #FCEBEB; --red-text: #A32D2D;
+      --radius: 10px; --radius-lg: 14px;
     }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      font-size: 14px;
-      line-height: 1.5;
-      min-height: 100vh;
-    }
-
-    /* ── TOPBAR ── */
-    .topbar {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 0 24px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; min-height: 100vh; }
+    .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
     .logo { display: flex; align-items: center; gap: 10px; }
-    .logo-mark {
-      width: 34px; height: 34px;
-      background: var(--teal);
-      border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; font-weight: 700; font-size: 13px; letter-spacing: 0.5px;
-    }
-    .logo-text { font-size: 15px; font-weight: 600; color: var(--text); }
+    .logo-mark { width: 34px; height: 34px; background: var(--teal); border-radius: 9px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px; }
+    .logo-text { font-size: 15px; font-weight: 600; }
     .logo-sub { font-size: 11px; color: var(--text-muted); }
-    .back-btn {
-      display: flex; align-items: center; gap: 6px;
-      padding: 7px 14px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: transparent;
-      font-size: 13px; color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .back-btn:hover { background: var(--bg); color: var(--text); }
-
-    /* ── VIEWS ── */
+    .back-btn { display: flex; align-items: center; gap: 6px; padding: 7px 14px; border: 1px solid var(--border); border-radius: 8px; background: transparent; font-size: 13px; color: var(--text-muted); cursor: pointer; }
+    .back-btn:hover { background: var(--bg); }
     .view { display: none; }
     .view.active { display: block; }
-
-    /* ── ADMIN ── */
     .page-body { padding: 28px 24px; max-width: 1100px; margin: 0 auto; }
     .page-title { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
     .page-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
-
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-    .sum-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px;
-    }
+    .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 28px; }
+    .sum-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
     .sum-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
-    .sum-val { font-size: 26px; font-weight: 600; color: var(--text); line-height: 1; }
+    .sum-val { font-size: 26px; font-weight: 600; line-height: 1; }
     .sum-delta { font-size: 12px; color: var(--teal); margin-top: 4px; }
-
-    .section-title {
-      font-size: 12px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.06em;
-      color: var(--text-muted); margin-bottom: 12px;
-    }
-    .clients-wrap {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-    }
+    .section-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 12px; }
+    .clients-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
     table { width: 100%; border-collapse: collapse; }
-    th {
-      font-size: 11px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.05em;
-      color: var(--text-muted);
-      padding: 10px 16px; text-align: left;
-      border-bottom: 1px solid var(--border);
-      background: #FAFAFA;
-    }
+    th { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); padding: 10px 16px; text-align: left; border-bottom: 1px solid var(--border); background: #FAFAFA; }
     td { padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 13px; }
     tr:last-child td { border-bottom: none; }
     tbody tr:hover { background: var(--bg); }
-
-    .pill {
-      display: inline-block;
-      font-size: 11px; font-weight: 600;
-      padding: 3px 10px; border-radius: 20px;
-    }
+    .pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
     .pill-green { background: var(--green-bg); color: var(--green-text); }
     .pill-amber { background: var(--amber-bg); color: var(--amber-text); }
-    .pill-red   { background: var(--red-bg);   color: var(--red-text); }
-
-    .view-btn {
-      padding: 6px 14px; font-size: 12px; font-weight: 500;
-      border: 1.5px solid var(--teal); border-radius: 7px;
-      color: var(--teal); background: transparent; cursor: pointer;
-      transition: all 0.15s;
-    }
+    .pill-red { background: var(--red-bg); color: var(--red-text); }
+    .view-btn { padding: 6px 14px; font-size: 12px; font-weight: 500; border: 1.5px solid var(--teal); border-radius: 7px; color: var(--teal); background: transparent; cursor: pointer; }
     .view-btn:hover { background: var(--teal-light); }
-
-    /* ── PIN ── */
-    .pin-screen {
-      min-height: calc(100vh - 56px);
-      display: flex; align-items: center; justify-content: center;
-      padding: 24px;
-    }
-    .pin-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 36px 32px;
-      width: 100%; max-width: 340px;
-      text-align: center;
-    }
-    .pin-icon-wrap {
-      width: 54px; height: 54px; border-radius: 14px;
-      background: var(--teal-light);
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 18px;
-    }
-    .pin-icon-wrap svg { width: 26px; height: 26px; stroke: var(--teal); fill: none; stroke-width: 2; stroke-linecap: round; }
-    .pin-name { font-size: 17px; font-weight: 600; margin-bottom: 5px; }
-    .pin-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 22px; }
-    .pin-dots { display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; }
-    .dot {
-      width: 13px; height: 13px; border-radius: 50%;
-      border: 2px solid var(--border); background: transparent;
-      transition: all 0.12s;
-    }
-    .dot.on { background: var(--teal); border-color: var(--teal); }
-    .numpad { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; max-width: 210px; margin: 0 auto; }
-    .key {
-      padding: 15px; font-size: 19px; font-weight: 500;
-      border: 1px solid var(--border); border-radius: var(--radius);
-      background: var(--surface); cursor: pointer; color: var(--text);
-      transition: all 0.1s;
-    }
-    .key:hover { background: var(--bg); }
-    .key:active { transform: scale(0.95); }
-    .key-del { font-size: 13px; color: var(--text-muted); }
-    .pin-err { font-size: 12px; color: var(--red-text); margin-top: 14px; min-height: 18px; }
-
-    /* ── DASHBOARD ── */
     .dash-body { padding: 24px; max-width: 1100px; margin: 0 auto; }
     .client-hdr { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
-    .avatar {
-      width: 46px; height: 46px; border-radius: 12px;
-      background: var(--teal);
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; font-weight: 700; font-size: 15px;
-    }
+    .avatar { width: 46px; height: 46px; border-radius: 12px; background: var(--teal); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 15px; }
     .client-name { font-size: 18px; font-weight: 600; }
     .client-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-
     .period-bar { display: flex; gap: 6px; margin-bottom: 20px; }
-    .ptab {
-      padding: 6px 16px; font-size: 12px; font-weight: 500;
-      border-radius: 20px; cursor: pointer;
-      border: 1px solid var(--border); background: transparent;
-      color: var(--text-muted); transition: all 0.15s;
-    }
+    .ptab { padding: 6px 16px; font-size: 12px; font-weight: 500; border-radius: 20px; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text-muted); }
     .ptab.on { background: var(--teal); color: #fff; border-color: var(--teal); }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 10px; margin-bottom: 20px;
-    }
-    .m-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 14px 16px;
-    }
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 10px; margin-bottom: 20px; }
+    .m-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
     .m-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
-    .m-val { font-size: 22px; font-weight: 600; color: var(--text); line-height: 1; }
+    .m-val { font-size: 20px; font-weight: 600; line-height: 1; }
     .m-delta { font-size: 11px; margin-top: 5px; }
     .up { color: var(--teal); } .dn { color: var(--red-text); }
-
     .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-    .chart-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius-lg); padding: 18px;
-    }
-    .chart-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; color: var(--text); }
-
-    .share-footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 14px 24px;
-      display: flex; align-items: center; gap: 10px;
-      position: sticky; bottom: 0;
-    }
-    .link-label { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
-    .link-box {
-      flex: 1; font-size: 12px; font-family: monospace;
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 7px; padding: 8px 12px; color: var(--teal);
-    }
-    .copy-btn {
-      padding: 8px 16px; font-size: 12px; font-weight: 500;
-      border: 1px solid var(--border); border-radius: 7px;
-      background: transparent; cursor: pointer; color: var(--text);
-      white-space: nowrap; transition: all 0.15s;
-    }
+    .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; }
+    .chart-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
+    .loading-box { text-align: center; padding: 40px; color: var(--text-muted); font-size: 13px; }
+    .share-footer { background: var(--surface); border-top: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; gap: 10px; position: sticky; bottom: 0; }
+    .link-box { flex: 1; font-size: 12px; font-family: monospace; background: var(--bg); border: 1px solid var(--border); border-radius: 7px; padding: 8px 12px; color: var(--teal); }
+    .copy-btn { padding: 8px 16px; font-size: 12px; font-weight: 500; border: 1px solid var(--border); border-radius: 7px; background: transparent; cursor: pointer; white-space: nowrap; }
     .copy-btn:hover { background: var(--bg); }
-
-    @media (max-width: 700px) {
-      .charts-row { grid-template-columns: 1fr; }
-      .summary-grid { grid-template-columns: 1fr 1fr; }
-      .page-body, .dash-body { padding: 16px; }
-      table { font-size: 12px; }
-      th, td { padding: 10px; }
-    }
+    .tag-live { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500; color: var(--teal); background: var(--teal-light); padding: 3px 10px; border-radius: 20px; }
+    .dot-live { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    @media (max-width: 700px) { .charts-row { grid-template-columns: 1fr; } .summary-grid { grid-template-columns: 1fr 1fr; } .page-body, .dash-body { padding: 16px; } }
   </style>
 </head>
 <body>
 
-<!-- ═══════════ ADMIN VIEW ═══════════ -->
+<!-- ADMIN VIEW -->
 <div id="v-admin" class="view active">
   <div class="topbar">
     <div class="logo">
       <div class="logo-mark">TK</div>
-      <div>
-        <div class="logo-text">Trakken Agency</div>
-        <div class="logo-sub">Panel de agencia</div>
-      </div>
+      <div><div class="logo-text">Trakken Agency</div><div class="logo-sub">Panel de agencia</div></div>
     </div>
-    <span style="font-size:12px;color:var(--text-muted);" id="active-count">3 clientes activos</span>
+    <span id="active-count" style="font-size:12px;color:var(--text-muted);"></span>
   </div>
   <div class="page-body">
     <div class="page-title">Resumen de clientes</div>
     <div class="page-sub" id="admin-date"></div>
-
     <div class="summary-grid">
-      <div class="sum-card">
-        <div class="sum-label">Total leads</div>
-        <div class="sum-val" id="tot-leads">—</div>
-        <div class="sum-delta">este mes</div>
-      </div>
-      <div class="sum-card">
-        <div class="sum-label">Inversión total</div>
-        <div class="sum-val" id="tot-inv">—</div>
-        <div class="sum-delta">3 clientes</div>
-      </div>
-      <div class="sum-card">
-        <div class="sum-label">CPL promedio</div>
-        <div class="sum-val" id="tot-cpl">—</div>
-        <div class="sum-delta">meta &lt; $18</div>
-      </div>
-      <div class="sum-card">
-        <div class="sum-label">Pacientes captados</div>
-        <div class="sum-val" id="tot-pac">—</div>
-        <div class="sum-delta">suma de clientes</div>
-      </div>
+      <div class="sum-card"><div class="sum-label">Inversión total</div><div class="sum-val" id="tot-inv">—</div><div class="sum-delta">acumulado activo</div></div>
+      <div class="sum-card"><div class="sum-label">Ventas totales</div><div class="sum-val" id="tot-ventas">—</div><div class="sum-delta">cierres confirmados</div></div>
+      <div class="sum-card"><div class="sum-label">Facturación total</div><div class="sum-val" id="tot-fac">—</div><div class="sum-delta">ingresos generados</div></div>
+      <div class="sum-card"><div class="sum-label">ROAS promedio</div><div class="sum-val" id="tot-roas">—</div><div class="sum-delta">retorno sobre inversión</div></div>
     </div>
-
     <div class="section-title">Clientes</div>
     <div class="clients-wrap">
       <table>
-        <thead>
-          <tr>
-            <th>Clínica</th>
-            <th>Leads</th>
-            <th>Inversión</th>
-            <th>CPL</th>
-            <th>Agendados</th>
-            <th>ROAS</th>
-            <th>Estado</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="clients-tbody"></tbody>
+        <thead><tr><th>Cliente</th><th>Inversión MXN</th><th>Mensajes</th><th>Agendados</th><th>Ventas</th><th>Facturación MXN</th><th>ROAS</th><th>Estado</th><th></th></tr></thead>
+        <tbody id="clients-tbody"><tr><td colspan="9"><div class="loading-box">Cargando datos...</div></td></tr></tbody>
       </table>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ PIN VIEW ═══════════ -->
-<div id="v-pin" class="view">
-  <div class="topbar">
-    <div class="logo">
-      <div class="logo-mark">TK</div>
-      <div>
-        <div class="logo-text">Trakken Agency</div>
-        <div class="logo-sub">Acceso seguro</div>
-      </div>
-    </div>
-    <button class="back-btn" onclick="goAdmin()">← Volver</button>
-  </div>
-  <div class="pin-screen">
-    <div class="pin-card">
-      <div class="pin-icon-wrap">
-        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      </div>
-      <div class="pin-name" id="pin-cname">Clínica</div>
-      <div class="pin-sub">Ingresa tu PIN de 4 dígitos</div>
-      <div class="pin-dots">
-        <div class="dot" id="pd0"></div>
-        <div class="dot" id="pd1"></div>
-        <div class="dot" id="pd2"></div>
-        <div class="dot" id="pd3"></div>
-      </div>
-      <div class="numpad">
-        <button class="key" onclick="pk('1')">1</button>
-        <button class="key" onclick="pk('2')">2</button>
-        <button class="key" onclick="pk('3')">3</button>
-        <button class="key" onclick="pk('4')">4</button>
-        <button class="key" onclick="pk('5')">5</button>
-        <button class="key" onclick="pk('6')">6</button>
-        <button class="key" onclick="pk('7')">7</button>
-        <button class="key" onclick="pk('8')">8</button>
-        <button class="key" onclick="pk('9')">9</button>
-        <button class="key key-del" onclick="pdel()">⌫</button>
-        <button class="key" onclick="pk('0')">0</button>
-        <button class="key" style="opacity:0;pointer-events:none;"></button>
-      </div>
-      <div class="pin-err" id="pin-err"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════ CLIENT DASHBOARD VIEW ═══════════ -->
+<!-- CLIENT DASHBOARD VIEW -->
 <div id="v-dash" class="view">
   <div class="topbar">
     <div class="logo">
       <div class="logo-mark">TK</div>
-      <div>
-        <div class="logo-text">Trakken Agency</div>
-        <div class="logo-sub">Dashboard de resultados</div>
-      </div>
+      <div><div class="logo-text">Trakken Agency</div><div class="logo-sub">Dashboard de resultados</div></div>
     </div>
-    <button class="back-btn" onclick="goAdmin()">← Panel agencia</button>
+    <button class="back-btn" onclick="goAdmin()" id="back-admin-btn" style="display:none">← Panel agencia</button>
   </div>
   <div class="dash-body">
     <div class="client-hdr">
-      <div class="avatar" id="d-avatar">SJ</div>
+      <div class="avatar" id="d-avatar">YC</div>
       <div>
-        <div class="client-name" id="d-name">Clínica</div>
-        <div class="client-meta" id="d-meta">Especialidad</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="client-name" id="d-name">Yvsen Clinic</div>
+          <span class="tag-live"><span class="dot-live"></span>En vivo</span>
+        </div>
+        <div class="client-meta" id="d-meta">Datos actualizados desde Google Sheets</div>
       </div>
     </div>
 
     <div class="period-bar">
-      <button class="ptab on" onclick="setPeriod(this,'sem')">Esta semana</button>
-      <button class="ptab" onclick="setPeriod(this,'mes')">Este mes</button>
-      <button class="ptab" onclick="setPeriod(this,'90')">90 días</button>
+      <button class="ptab on" onclick="setPeriod(this,'todo')">Todo el período</button>
+      <button class="ptab" onclick="setPeriod(this,'mes')">Último mes</button>
+      <button class="ptab" onclick="setPeriod(this,'sem')">Últimas 2 semanas</button>
     </div>
 
-    <div class="metrics-grid">
-      <div class="m-card"><div class="m-label">Leads</div><div class="m-val" id="d-leads">—</div><div class="m-delta up" id="d-leads-d"></div></div>
-      <div class="m-card"><div class="m-label">Inversión</div><div class="m-val" id="d-inv">—</div><div class="m-delta" style="color:var(--text-muted)">presupuesto mensual</div></div>
-      <div class="m-card"><div class="m-label">CPL</div><div class="m-val" id="d-cpl">—</div><div class="m-delta up">meta: &lt;$18</div></div>
-      <div class="m-card"><div class="m-label">ROAS</div><div class="m-val" id="d-roas">—</div><div class="m-delta up" id="d-roas-d"></div></div>
-      <div class="m-card"><div class="m-label">Agendados</div><div class="m-val" id="d-ag">—</div><div class="m-delta" style="color:var(--text-muted)" id="d-ag-d"></div></div>
-      <div class="m-card"><div class="m-label">Costo / agendado</div><div class="m-val" id="d-cag">—</div><div class="m-delta up">eficiente</div></div>
-      <div class="m-card"><div class="m-label">Mensajes</div><div class="m-val" id="d-msg">—</div><div class="m-delta" style="color:var(--text-muted)" id="d-msg-d"></div></div>
-      <div class="m-card"><div class="m-label">Facturación</div><div class="m-val" id="d-fac">—</div><div class="m-delta up" id="d-fac-d"></div></div>
-      <div class="m-card"><div class="m-label">CAC</div><div class="m-val" id="d-cac">—</div><div class="m-delta" style="color:var(--text-muted)">costo adquisición</div></div>
-      <div class="m-card"><div class="m-label">Costo / mensaje</div><div class="m-val" id="d-cmsg">—</div><div class="m-delta" style="color:var(--text-muted)">por conversación</div></div>
-      <div class="m-card"><div class="m-label">Compras / cierres</div><div class="m-val" id="d-comp">—</div><div class="m-delta" style="color:var(--text-muted)" id="d-comp-d"></div></div>
-      <div class="m-card"><div class="m-label">Costo / compra</div><div class="m-val" id="d-ccomp">—</div><div class="m-delta up">eficiente</div></div>
+    <div id="metrics-area">
+      <div class="loading-box">Cargando métricas desde Google Sheets...</div>
     </div>
 
-    <div class="charts-row">
-      <div class="chart-card">
-        <div class="chart-title">Leads vs agendados por semana</div>
-        <div style="position:relative;height:190px;"><canvas id="c1"></canvas></div>
-      </div>
-      <div class="chart-card">
-        <div class="chart-title">Evolución de CPL</div>
-        <div style="position:relative;height:190px;"><canvas id="c2"></canvas></div>
-      </div>
-    </div>
-    <div class="chart-card" style="margin-bottom:70px;">
-      <div class="chart-title">Facturación vs inversión mensual</div>
-      <div style="position:relative;height:190px;"><canvas id="c3"></canvas></div>
-    </div>
+    <div id="charts-area"></div>
   </div>
   <div class="share-footer">
-    <div class="link-label">Link cliente:</div>
-    <div class="link-box" id="d-link">trakken.vercel.app/cliente/—</div>
+    <div style="font-size:12px;color:var(--text-muted);white-space:nowrap;">Link cliente:</div>
+    <div class="link-box" id="d-link">trakken-dashboard.vercel.app/cliente/yvsen-clinic</div>
     <button class="copy-btn" onclick="copyLink()" id="copy-btn">Copiar link</button>
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 // ═══════════════════════════════════════════
-// DATA — edita aquí para agregar/cambiar clientes
+// CONFIGURACIÓN DE CLIENTES
+// Agrega aquí cada cliente con su Sheet ID
 // ═══════════════════════════════════════════
-const CLIENTS = [
+const CLIENTS_CONFIG = [
   {
-    id: 'san-jose',
-    slug: 'clinica-san-jose',
-    name: 'Clínica San José',
-    specialty: 'Odontología',
-    avatar: 'SJ',
-    pin: '1234',
-    status: 'meta',
-    metrics: {
-      leads: 94, inv: '$1,200', cpl: '$12.77', roas: '3.2x',
-      ag: 38, cag: '$31.58', msg: 127, fac: '$8,400',
-      cac: '$45.00', cmsg: '$9.45', comp: 22, ccomp: '$54.54',
-      leadsD: '+18% vs anterior', roasD: '+0.4x', agD: '40% conversión',
-      msgD: '$9.45/msg', facD: '+22%', compD: '23% cierre'
-    },
-    charts: {
-      labels: ['Sem 1','Sem 2','Sem 3','Sem 4'],
-      leads: [18,22,26,28], agendados: [7,9,11,11],
-      cpl: [19,16,14,13], cagEvol: [48,40,35,32],
-      factura: [4200,5800,7100,8400], inversion: [1000,1100,1100,1200]
-    }
-  },
-  {
-    id: 'norte',
-    slug: 'centro-medico-norte',
-    name: 'Centro Médico Norte',
-    specialty: 'Medicina general',
-    avatar: 'CM',
-    pin: '5678',
-    status: 'proceso',
-    metrics: {
-      leads: 71, inv: '$1,100', cpl: '$15.49', roas: '2.7x',
-      ag: 29, cag: '$37.93', msg: 98, fac: '$6,200',
-      cac: '$60.00', cmsg: '$11.22', comp: 15, ccomp: '$73.33',
-      leadsD: '+11% vs anterior', roasD: '+0.2x', agD: '41% conversión',
-      msgD: '$11.22/msg', facD: '+14%', compD: '21% cierre'
-    },
-    charts: {
-      labels: ['Sem 1','Sem 2','Sem 3','Sem 4'],
-      leads: [14,17,20,20], agendados: [6,7,8,8],
-      cpl: [22,19,17,15], cagEvol: [55,48,42,38],
-      factura: [3100,4200,5400,6200], inversion: [900,1000,1050,1100]
-    }
-  },
-  {
-    id: 'abc',
-    slug: 'clinica-estetica-abc',
-    name: 'Clínica Estética ABC',
-    specialty: 'Estética médica',
-    avatar: 'EA',
-    pin: '9012',
-    status: 'bajo',
-    metrics: {
-      leads: 53, inv: '$1,100', cpl: '$20.75', roas: '1.9x',
-      ag: 20, cag: '$55.00', msg: 74, fac: '$4,100',
-      cac: '$88.00', cmsg: '$14.86', comp: 10, ccomp: '$110.00',
-      leadsD: '+4% vs anterior', roasD: '−0.1x', agD: '38% conversión',
-      msgD: '$14.86/msg', facD: '+6%', compD: '19% cierre'
-    },
-    charts: {
-      labels: ['Sem 1','Sem 2','Sem 3','Sem 4'],
-      leads: [11,13,14,15], agendados: [4,5,5,6],
-      cpl: [26,23,22,21], cagEvol: [70,62,58,55],
-      factura: [1800,2700,3400,4100], inversion: [900,1000,1050,1100]
-    }
+    id: 'yvsen-clinic',
+    name: 'Yvsen Clinic',
+    specialty: 'Clínica estética',
+    avatar: 'YC',
+    sheetId: '1ninrRFjKKARkcq0sqWtjzLNJ97OjMyDtBWFrEjnqzOA',
+    sheetName: 'DATA',
+    currency: 'MXN'
   }
+  // Para agregar más clientes, copia el bloque de arriba y cambia los valores
 ];
 
 // ═══════════════════════════════════════════
-// STATE
+// LEER GOOGLE SHEET (CSV público)
 // ═══════════════════════════════════════════
-let currentId = null;
-let pinEntry = '';
-let charts = {};
-
-// ═══════════════════════════════════════════
-// INIT ADMIN
-// ═══════════════════════════════════════════
-function initAdmin() {
-  const now = new Date();
-  document.getElementById('admin-date').textContent =
-    now.toLocaleDateString('es-ES', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
-
-  let totLeads = 0, totInv = 0, totPac = 0;
-  CLIENTS.forEach(c => {
-    totLeads += c.metrics.leads;
-    totInv += parseInt(c.metrics.inv.replace(/\D/g,''));
-    totPac += c.metrics.ag;
-  });
-  const cpl = (totInv / totLeads).toFixed(2);
-  document.getElementById('tot-leads').textContent = totLeads;
-  document.getElementById('tot-inv').textContent = '$' + totInv.toLocaleString();
-  document.getElementById('tot-cpl').textContent = '$' + cpl;
-  document.getElementById('tot-pac').textContent = totPac;
-
-  const tbody = document.getElementById('clients-tbody');
-  tbody.innerHTML = '';
-  CLIENTS.forEach(c => {
-    const statusMap = {
-      meta: ['pill-green','En meta'],
-      proceso: ['pill-amber','En proceso'],
-      bajo: ['pill-red','Bajo meta']
-    };
-    const [cls, label] = statusMap[c.status];
-    tbody.innerHTML += `
-      <tr>
-        <td><strong>${c.name}</strong><br><span style="font-size:11px;color:var(--text-muted)">${c.specialty}</span></td>
-        <td>${c.metrics.leads}</td>
-        <td>${c.metrics.inv}</td>
-        <td>${c.metrics.cpl}</td>
-        <td>${c.metrics.ag}</td>
-        <td>${c.metrics.roas}</td>
-        <td><span class="pill ${cls}">${label}</span></td>
-        <td><button class="view-btn" onclick="openPin('${c.id}')">Ver dashboard</button></td>
-      </tr>`;
-  });
-}
-
-// ═══════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════
-function show(id) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-function goAdmin() { pinEntry = ''; updateDots(); show('v-admin'); }
-
-function openPin(id) {
-  currentId = id;
-  pinEntry = '';
-  updateDots();
-  document.getElementById('pin-err').textContent = '';
-  document.getElementById('pin-cname').textContent = CLIENTS.find(c=>c.id===id).name;
-  show('v-pin');
-}
-
-// ═══════════════════════════════════════════
-// PIN LOGIC
-// ═══════════════════════════════════════════
-function pk(k) {
-  if (pinEntry.length >= 4) return;
-  pinEntry += k;
-  updateDots();
-  if (pinEntry.length === 4) setTimeout(checkPin, 150);
-}
-function pdel() {
-  pinEntry = pinEntry.slice(0,-1);
-  updateDots();
-  document.getElementById('pin-err').textContent = '';
-}
-function updateDots() {
-  for (let i=0;i<4;i++) document.getElementById('pd'+i).classList.toggle('on', i < pinEntry.length);
-}
-function checkPin() {
-  const c = CLIENTS.find(x=>x.id===currentId);
-  if (pinEntry === c.pin) { openDash(currentId); }
-  else {
-    document.getElementById('pin-err').textContent = 'PIN incorrecto. Intenta de nuevo.';
-    pinEntry = '';
-    updateDots();
+async function fetchSheetData(sheetId, sheetName) {
+  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
+    return parseCSV(text);
+  } catch(e) {
+    console.error('Error fetching sheet:', e);
+    return null;
   }
 }
 
-// ═══════════════════════════════════════════
-// DASHBOARD
-// ═══════════════════════════════════════════
-function openDash(id) {
-  const c = CLIENTS.find(x=>x.id===id);
-  const m = c.metrics;
-  document.getElementById('d-avatar').textContent = c.avatar;
-  document.getElementById('d-name').textContent = c.name;
-  document.getElementById('d-meta').textContent = c.specialty + ' · actualizado hoy';
-  document.getElementById('d-leads').textContent = m.leads;
-  document.getElementById('d-leads-d').textContent = m.leadsD;
-  document.getElementById('d-inv').textContent = m.inv;
-  document.getElementById('d-cpl').textContent = m.cpl;
-  document.getElementById('d-roas').textContent = m.roas;
-  document.getElementById('d-roas-d').textContent = m.roasD;
-  document.getElementById('d-ag').textContent = m.ag;
-  document.getElementById('d-ag-d').textContent = m.agD;
-  document.getElementById('d-cag').textContent = m.cag;
-  document.getElementById('d-msg').textContent = m.msg;
-  document.getElementById('d-msg-d').textContent = m.msgD;
-  document.getElementById('d-fac').textContent = m.fac;
-  document.getElementById('d-fac-d').textContent = m.facD;
-  document.getElementById('d-cac').textContent = m.cac;
-  document.getElementById('d-cmsg').textContent = m.cmsg;
-  document.getElementById('d-comp').textContent = m.comp;
-  document.getElementById('d-comp-d').textContent = m.compD;
-  document.getElementById('d-ccomp').textContent = m.ccomp;
-  document.getElementById('d-link').textContent = 'trakken-dashboard.vercel.app/cliente/' + c.slug;
-  show('v-dash');
-  setTimeout(() => buildCharts(c), 80);
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const headers = lines[0].split(',').map(h => h.replace(/"/g,'').trim());
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    const vals = lines[i].match(/(".*?"|[^,]+)(?=,|$)/g) || [];
+    const row = {};
+    headers.forEach((h, j) => {
+      let v = (vals[j] || '').replace(/"/g,'').trim();
+      row[h] = v;
+    });
+    rows.push(row);
+  }
+  return { headers, rows };
 }
 
-function buildCharts(c) {
-  const ch = c.charts;
-  const gc = (id) => document.getElementById(id).getContext('2d');
+function parseNum(v) {
+  if (!v || v === '' || v === '#DIV/0!') return 0;
+  return parseFloat(v.replace(/[$,\s]/g,'')) || 0;
+}
+
+function fmt(n, prefix='$') {
+  if (n >= 1000000) return prefix + (n/1000000).toFixed(1) + 'M';
+  if (n >= 1000) return prefix + Math.round(n).toLocaleString('es-MX');
+  return prefix + n.toFixed(2);
+}
+
+// ═══════════════════════════════════════════
+// CALCULAR MÉTRICAS DESDE ROWS
+// ═══════════════════════════════════════════
+function calcMetrics(rows, period) {
+  let filteredRows = rows.filter(r => parseNum(r['Inversión mx ']) > 0 || parseNum(r['ventas']) > 0 || parseNum(r['Mensajes']) > 0);
+
+  if (period === 'mes') {
+    filteredRows = filteredRows.slice(-30);
+  } else if (period === 'sem') {
+    filteredRows = filteredRows.slice(-14);
+  }
+
+  let inv = 0, msg = 0, ag = 0, ventas = 0, fac = 0;
+  filteredRows.forEach(r => {
+    inv   += parseNum(r['Inversión mx ']);
+    msg   += parseNum(r['Mensajes']);
+    ag    += parseNum(r['Agendados']);
+    ventas += parseNum(r['ventas']);
+    fac   += parseNum(r['Facturación mx']);
+  });
+
+  const roas = inv > 0 ? (fac / inv) : 0;
+  const cpm  = msg > 0 ? (inv / msg) : 0;
+  const cag  = ag > 0  ? (inv / ag)  : 0;
+  const cac  = ventas > 0 ? (inv / ventas) : 0;
+  const cconv = ventas > 0 ? (inv / ventas) : 0;
+
+  // Para gráficas semanales — agrupar por semana
+  const weeklyData = groupByWeek(filteredRows);
+
+  return { inv, msg, ag, ventas, fac, roas, cpm, cag, cac, weeklyData, rowCount: filteredRows.length };
+}
+
+function groupByWeek(rows) {
+  const weeks = {};
+  rows.forEach(r => {
+    const fecha = r['Fecha'] || r['FECHA'] || '';
+    if (!fecha) return;
+    const parts = fecha.split('/');
+    if (parts.length < 3) return;
+    const d = new Date(parts[2], parts[1]-1, parts[0]);
+    const weekNum = Math.ceil(d.getDate() / 7);
+    const key = `${d.toLocaleString('es-MX',{month:'short'})} S${weekNum}`;
+    if (!weeks[key]) weeks[key] = { inv:0, msg:0, ag:0, ventas:0, fac:0 };
+    weeks[key].inv    += parseNum(r['Inversión mx ']);
+    weeks[key].msg    += parseNum(r['Mensajes']);
+    weeks[key].ag     += parseNum(r['Agendados']);
+    weeks[key].ventas += parseNum(r['ventas']);
+    weeks[key].fac    += parseNum(r['Facturación mx']);
+  });
+  return weeks;
+}
+
+// ═══════════════════════════════════════════
+// RENDERIZAR DASHBOARD DE CLIENTE
+// ═══════════════════════════════════════════
+let currentRows = null;
+let charts = {};
+
+function renderMetrics(m, currency='MXN') {
+  const cur = currency === 'MXN' ? '$' : 'USD ';
+  document.getElementById('metrics-area').innerHTML = `
+    <div class="metrics-grid">
+      <div class="m-card"><div class="m-label">Inversión</div><div class="m-val">${fmt(m.inv, cur)}</div><div class="m-delta" style="color:var(--text-muted)">${currency}</div></div>
+      <div class="m-card"><div class="m-label">Mensajes</div><div class="m-val">${Math.round(m.msg)}</div><div class="m-delta" style="color:var(--text-muted)">costo/msg: ${fmt(m.cpm, cur)}</div></div>
+      <div class="m-card"><div class="m-label">Agendados</div><div class="m-val">${Math.round(m.ag)}</div><div class="m-delta" style="color:var(--text-muted)">costo/ag: ${fmt(m.cag, cur)}</div></div>
+      <div class="m-card"><div class="m-label">Ventas</div><div class="m-val">${Math.round(m.ventas)}</div><div class="m-delta up">cierres confirmados</div></div>
+      <div class="m-card"><div class="m-label">Facturación</div><div class="m-val">${fmt(m.fac, cur)}</div><div class="m-delta up">${currency}</div></div>
+      <div class="m-card"><div class="m-label">ROAS</div><div class="m-val">${m.roas.toFixed(1)}x</div><div class="m-delta ${m.roas >= 3 ? 'up' : 'dn'}">${m.roas >= 3 ? 'por encima de meta' : 'por debajo de meta'}</div></div>
+      <div class="m-card"><div class="m-label">CAC</div><div class="m-val">${fmt(m.cac, cur)}</div><div class="m-delta" style="color:var(--text-muted)">costo adquisición</div></div>
+      <div class="m-card"><div class="m-label">Días activos</div><div class="m-val">${m.rowCount}</div><div class="m-delta" style="color:var(--text-muted)">con datos registrados</div></div>
+    </div>
+    <div class="charts-row" id="charts-row">
+      <div class="chart-card"><div class="chart-title">Mensajes vs agendados por semana</div><div style="position:relative;height:200px;"><canvas id="c1"></canvas></div></div>
+      <div class="chart-card"><div class="chart-title">Ventas por semana</div><div style="position:relative;height:200px;"><canvas id="c2"></canvas></div></div>
+    </div>
+    <div class="chart-card" style="margin-bottom:70px;"><div class="chart-title">Facturación vs inversión por semana</div><div style="position:relative;height:200px;"><canvas id="c3"></canvas></div></div>
+  `;
+  renderCharts(m.weeklyData);
+}
+
+function renderCharts(weekly) {
+  const labels = Object.keys(weekly);
   const opts = {
     responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
@@ -637,45 +302,57 @@ function buildCharts(c) {
   if (charts.c2) charts.c2.destroy();
   if (charts.c3) charts.c3.destroy();
 
-  charts.c1 = new Chart(gc('c1'), {
+  charts.c1 = new Chart(document.getElementById('c1').getContext('2d'), {
     type: 'bar',
     data: {
-      labels: ch.labels,
+      labels,
       datasets: [
-        { label: 'Leads', data: ch.leads, backgroundColor: '#1D9E75', borderRadius: 5 },
-        { label: 'Agendados', data: ch.agendados, backgroundColor: '#9FE1CB', borderRadius: 5 }
+        { label: 'Mensajes', data: labels.map(k => Math.round(weekly[k].msg)), backgroundColor: '#1D9E75', borderRadius: 4 },
+        { label: 'Agendados', data: labels.map(k => Math.round(weekly[k].ag)), backgroundColor: '#9FE1CB', borderRadius: 4 }
       ]
     },
-    options: { ...opts }
+    options: opts
   });
 
-  charts.c2 = new Chart(gc('c2'), {
-    type: 'line',
-    data: {
-      labels: ch.labels,
-      datasets: [
-        { label: 'CPL', data: ch.cpl, borderColor: '#1D9E75', backgroundColor: 'rgba(29,158,117,0.08)', fill: true, tension: 0.4, pointRadius: 4, pointBackgroundColor: '#1D9E75' }
-      ]
-    },
-    options: { ...opts }
-  });
-
-  charts.c3 = new Chart(gc('c3'), {
+  charts.c2 = new Chart(document.getElementById('c2').getContext('2d'), {
     type: 'bar',
     data: {
-      labels: ['Ene','Feb','Mar','Abr'],
+      labels,
+      datasets: [{ label: 'Ventas', data: labels.map(k => Math.round(weekly[k].ventas)), backgroundColor: '#1D9E75', borderRadius: 4 }]
+    },
+    options: opts
+  });
+
+  charts.c3 = new Chart(document.getElementById('c3').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels,
       datasets: [
-        { label: 'Facturación', data: ch.factura, backgroundColor: '#1D9E75', borderRadius: 5 },
-        { label: 'Inversión', data: ch.inversion, backgroundColor: '#9FE1CB', borderRadius: 5 }
+        { label: 'Facturación', data: labels.map(k => Math.round(weekly[k].fac)), backgroundColor: '#1D9E75', borderRadius: 4 },
+        { label: 'Inversión', data: labels.map(k => Math.round(weekly[k].inv)), backgroundColor: '#9FE1CB', borderRadius: 4 }
       ]
     },
-    options: { ...opts }
+    options: opts
   });
 }
 
-function setPeriod(el) {
+// ═══════════════════════════════════════════
+// NAVEGACIÓN Y ROUTING POR URL
+// ═══════════════════════════════════════════
+function show(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goAdmin() { show('v-admin'); }
+
+function setPeriod(el, period) {
   document.querySelectorAll('.ptab').forEach(t => t.classList.remove('on'));
   el.classList.add('on');
+  if (currentRows) {
+    const m = calcMetrics(currentRows, period);
+    renderMetrics(m);
+  }
 }
 
 function copyLink() {
@@ -687,9 +364,114 @@ function copyLink() {
 }
 
 // ═══════════════════════════════════════════
-// BOOT
+// CARGAR DATOS Y RENDER ADMIN
 // ═══════════════════════════════════════════
-initAdmin();
+async function loadClient(clientConfig) {
+  const data = await fetchSheetData(clientConfig.sheetId, clientConfig.sheetName);
+  if (!data) return null;
+  const rows = data.rows.filter(r => {
+    const inv = parseNum(r['Inversión mx ']);
+    const msg = parseNum(r['Mensajes']);
+    const v   = parseNum(r['ventas']);
+    return inv > 0 || msg > 0 || v > 0;
+  });
+  const m = calcMetrics(rows, 'todo');
+  return { config: clientConfig, metrics: m, rows };
+}
+
+async function openClientDash(clientId) {
+  const cfg = CLIENTS_CONFIG.find(c => c.id === clientId);
+  if (!cfg) return;
+
+  document.getElementById('d-avatar').textContent = cfg.avatar;
+  document.getElementById('d-name').textContent = cfg.name;
+  document.getElementById('d-meta').textContent = cfg.specialty + ' · datos en tiempo real';
+  document.getElementById('d-link').textContent = `trakken-dashboard.vercel.app/cliente/${cfg.id}`;
+  document.getElementById('metrics-area').innerHTML = '<div class="loading-box">Cargando datos desde Google Sheets...</div>';
+  document.getElementById('back-admin-btn').style.display = 'flex';
+
+  show('v-dash');
+
+  const data = await fetchSheetData(cfg.sheetId, cfg.sheetName);
+  if (!data) {
+    document.getElementById('metrics-area').innerHTML = '<div class="loading-box">⚠️ Error al cargar datos. Verifica que el Sheet sea público.</div>';
+    return;
+  }
+
+  currentRows = data.rows.filter(r => {
+    const inv = parseNum(r['Inversión mx ']);
+    const msg = parseNum(r['Mensajes']);
+    const v   = parseNum(r['ventas']);
+    return inv > 0 || msg > 0 || v > 0;
+  });
+
+  const m = calcMetrics(currentRows, 'todo');
+  renderMetrics(m, cfg.currency);
+}
+
+async function initAdmin() {
+  const now = new Date();
+  document.getElementById('admin-date').textContent =
+    now.toLocaleDateString('es-MX', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+  const results = await Promise.all(CLIENTS_CONFIG.map(loadClient));
+  document.getElementById('active-count').textContent = `${results.length} cliente${results.length !== 1 ? 's' : ''} activo${results.length !== 1 ? 's' : ''}`;
+
+  let totInv = 0, totVentas = 0, totFac = 0, totRoasSum = 0, roasCount = 0;
+  results.forEach(r => {
+    if (!r) return;
+    totInv    += r.metrics.inv;
+    totVentas += r.metrics.ventas;
+    totFac    += r.metrics.fac;
+    if (r.metrics.roas > 0) { totRoasSum += r.metrics.roas; roasCount++; }
+  });
+
+  document.getElementById('tot-inv').textContent    = '$' + Math.round(totInv).toLocaleString('es-MX');
+  document.getElementById('tot-ventas').textContent = Math.round(totVentas);
+  document.getElementById('tot-fac').textContent    = '$' + Math.round(totFac).toLocaleString('es-MX');
+  document.getElementById('tot-roas').textContent   = roasCount > 0 ? (totRoasSum / roasCount).toFixed(1) + 'x' : '—';
+
+  const tbody = document.getElementById('clients-tbody');
+  tbody.innerHTML = '';
+  results.forEach(r => {
+    if (!r) return;
+    const m = r.metrics;
+    const roas = m.roas;
+    const status = roas >= 5 ? ['pill-green','En meta'] : roas >= 2 ? ['pill-amber','En proceso'] : ['pill-red','Bajo meta'];
+    tbody.innerHTML += `
+      <tr>
+        <td><strong>${r.config.name}</strong><br><span style="font-size:11px;color:var(--text-muted)">${r.config.specialty}</span></td>
+        <td>$${Math.round(m.inv).toLocaleString('es-MX')}</td>
+        <td>${Math.round(m.msg)}</td>
+        <td>${Math.round(m.ag)}</td>
+        <td>${Math.round(m.ventas)}</td>
+        <td>$${Math.round(m.fac).toLocaleString('es-MX')}</td>
+        <td>${roas.toFixed(1)}x</td>
+        <td><span class="pill ${status[0]}">${status[1]}</span></td>
+        <td><button class="view-btn" onclick="openClientDash('${r.config.id}')">Ver dashboard</button></td>
+      </tr>`;
+  });
+}
+
+// ═══════════════════════════════════════════
+// ROUTING POR URL
+// ═══════════════════════════════════════════
+function checkRoute() {
+  const path = window.location.pathname;
+  const match = path.match(/\/cliente\/(.+)/);
+  if (match) {
+    const clientId = match[1];
+    const cfg = CLIENTS_CONFIG.find(c => c.id === clientId);
+    if (cfg) {
+      document.getElementById('back-admin-btn').style.display = 'none';
+      openClientDash(clientId);
+      return;
+    }
+  }
+  initAdmin();
+}
+
+checkRoute();
 </script>
 </body>
 </html>
