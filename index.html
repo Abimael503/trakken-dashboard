@@ -6,22 +6,13 @@
   <title>Trakken Agency · Portal de Clientes</title>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --teal:#1D9E75;--teal-light:#E1F5EE;
-      --bg:#F7F8FA;--surface:#fff;--border:rgba(0,0,0,0.08);
-      --text:#1A1A1A;--muted:#6B7280;
-      --green-bg:#EAF3DE;--green-tx:#3B6D11;
-      --amber-bg:#FAEEDA;--amber-tx:#854F0B;
-      --red-bg:#FCEBEB;--red-tx:#A32D2D;
-      --r:10px;--rl:14px;
-    }
+    :root{--teal:#1D9E75;--teal-light:#E1F5EE;--bg:#F7F8FA;--surface:#fff;--border:rgba(0,0,0,0.08);--text:#1A1A1A;--muted:#6B7280;--green-bg:#EAF3DE;--green-tx:#3B6D11;--amber-bg:#FAEEDA;--amber-tx:#854F0B;--red-bg:#FCEBEB;--red-tx:#A32D2D;--r:10px;--rl:14px}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
     .bar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
     .logo{display:flex;align-items:center;gap:10px}
     .mark{width:34px;height:34px;background:var(--teal);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px}
     .logo-t{font-size:15px;font-weight:600}.logo-s{font-size:11px;color:var(--muted)}
-    .back{display:flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid var(--border);border-radius:8px;background:transparent;font-size:13px;color:var(--muted);cursor:pointer}
-    .back:hover{background:var(--bg)}
+    .back{display:flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid var(--border);border-radius:8px;background:transparent;font-size:13px;color:var(--muted);cursor:pointer}.back:hover{background:var(--bg)}
     .view{display:none}.view.active{display:block}
     .wrap{padding:24px;max-width:1100px;margin:0 auto}
     .sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:24px}
@@ -37,8 +28,7 @@
     tbody tr:hover{background:var(--bg)}
     .pill{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
     .pg{background:var(--green-bg);color:var(--green-tx)}.pa{background:var(--amber-bg);color:var(--amber-tx)}.pr{background:var(--red-bg);color:var(--red-tx)}
-    .vbtn{padding:5px 12px;font-size:12px;font-weight:500;border:1.5px solid var(--teal);border-radius:7px;color:var(--teal);background:transparent;cursor:pointer}
-    .vbtn:hover{background:var(--teal-light)}
+    .vbtn{padding:5px 12px;font-size:12px;font-weight:500;border:1.5px solid var(--teal);border-radius:7px;color:var(--teal);background:transparent;cursor:pointer}.vbtn:hover{background:var(--teal-light)}
     .chdr{display:flex;align-items:center;gap:14px;margin-bottom:20px}
     .av{width:46px;height:46px;border-radius:12px;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px}
     .cn{font-size:18px;font-weight:600}.cm{font-size:12px;color:var(--muted);margin-top:2px}
@@ -60,16 +50,13 @@
     .dtw table th{font-size:10px;padding:8px 12px}.dtw table td{font-size:11px;padding:8px 12px}
     .footer{background:var(--surface);border-top:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:10px;position:sticky;bottom:0}
     .lbox{flex:1;font-size:12px;font-family:monospace;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--teal)}
-    .cbtn{padding:8px 16px;font-size:12px;font-weight:500;border:1px solid var(--border);border-radius:7px;background:transparent;cursor:pointer;white-space:nowrap}
-    .cbtn:hover{background:var(--bg)}
+    .cbtn{padding:8px 16px;font-size:12px;font-weight:500;border:1px solid var(--border);border-radius:7px;background:transparent;cursor:pointer;white-space:nowrap}.cbtn:hover{background:var(--bg)}
     .loading{text-align:center;padding:40px;color:var(--muted);font-size:13px}
-    .debug-box{background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:12px;margin-bottom:16px;font-size:11px;font-family:monospace;color:#856404;white-space:pre-wrap;display:none}
-    @media(max-width:700px){.cr{grid-template-columns:1fr}.sg{grid-template-columns:1fr 1fr}.wrap{padding:14px}.ptabs{gap:4px}.ptab{padding:5px 9px;font-size:11px}}
+    @media(max-width:700px){.cr{grid-template-columns:1fr}.sg{grid-template-columns:1fr 1fr}.wrap{padding:14px}.ptab{padding:5px 9px;font-size:11px}}
   </style>
 </head>
 <body>
 
-<!-- ADMIN -->
 <div id="v-admin" class="view active">
   <div class="bar">
     <div class="logo"><div class="mark">TK</div><div><div class="logo-t">Trakken Agency</div><div class="logo-s">Panel de agencia</div></div></div>
@@ -94,7 +81,6 @@
   </div>
 </div>
 
-<!-- DASHBOARD CLIENTE -->
 <div id="v-dash" class="view">
   <div class="bar">
     <div class="logo"><div class="mark">TK</div><div><div class="logo-t">Trakken Agency</div><div class="logo-s">Dashboard de resultados</div></div></div>
@@ -121,7 +107,6 @@
       <button class="ptab"    onclick="setPeriod(this,90)">90 días</button>
       <button class="ptab"    onclick="setPeriod(this,0)">Todo</button>
     </div>
-    <div id="d-debug" class="debug-box"></div>
     <div id="d-metrics"><div class="loading">Cargando métricas...</div></div>
     <div id="d-charts"></div>
     <div id="d-table"></div>
@@ -135,40 +120,41 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-// ══════════════════════════════════════
-// CONFIGURACIÓN DE CLIENTES
-// ══════════════════════════════════════
+const PUB_ID = '2PACX-1vRSrOkgRPbsXXwgwGNv4UmUVnkR12hkA55rd6NsUU5xoAmAhtUIQXYsd4HSHuiRvDBKpO83-OhFDdYf';
+
 const CLIENTS = [
   {
     id:        'yvsen-clinic',
     name:      'Yvsen Clinic',
     specialty: 'Clínica estética',
     avatar:    'YC',
-    sheetId:   '1ninrRFjKKARkcq0sqWtjzLNJ97OjMyDtBWFrEjnqzOA',
-    sheets:    [
-      'abril - mayo','mayo - junio','junio - julio',
-      'julio - agosto','agosto - septiembre','septiembre - octubre',
-      'octubre - noviembre','noviembre - diciembre','diciembre - enero',
-      'enero - febrero','febrero - marzo','marzo - abril'
+    pubId:     PUB_ID,
+    tabs: [
+      { name:'abril - mayo',   gid:0          },
+      { name:'mayo - junio',   gid:1890319824 },
+      { name:'julio',          gid:1288555038 },
+      { name:'agosto',         gid:945566718  },
+      { name:'septiembre',     gid:87764684   },
+      { name:'octubre',        gid:990094537  },
+      { name:'noviembre',      gid:1222047647 },
+      { name:'diciembre',      gid:684527916  },
+      { name:'enero',          gid:248246498  },
+      { name:'febrero',        gid:1787433232 },
+      { name:'marzo',          gid:691963300  },
+      { name:'abril',          gid:1985569925 },
     ]
   }
 ];
 
-// ══════════════════════════════════════
-// COLUMNAS EXACTAS (índice 0 = col A)
-// B=1  J=9  K=10  P=15  Q=16  T=19  V=21  W=22  Y=24
-// ══════════════════════════════════════
-const COL = { INV:1, CONV:9, CCONV:10, AG:15, APART:16, VEN:19, CAC:21, LIQ:22, ROAS:24 };
+// Columnas por índice (0=A): B=1 J=9 K=10 P=15 Q=16 T=19 V=21 W=22 Y=24
+const C = {INV:1,CONV:9,CCONV:10,AG:15,APART:16,VEN:19,CAC:21,LIQ:22,ROAS:24};
 
-// ══════════════════════════════════════
-// HELPERS
-// ══════════════════════════════════════
 function pn(v){
   if(!v||typeof v!=='string')return 0;
-  if(v.includes('#'))return 0;
-  const n=parseFloat(v.replace(/[^0-9.\-]/g,''));
-  return isNaN(n)?0:n;
+  if(v.includes('#')||v.trim()==='')return 0;
+  return parseFloat(v.replace(/[^0-9.\-]/g,''))||0;
 }
+
 function pd(s){
   if(!s)return null;
   s=s.trim().replace(/"/g,'');
@@ -179,78 +165,74 @@ function pd(s){
   }
   return null;
 }
+
 function mxn(n){return'$'+Math.round(n).toLocaleString('es-MX')}
 
-// ══════════════════════════════════════
-// FETCH CSV — lee UNA pestaña
-// Busca la fila de encabezados (la que contiene "IMPORTE" o "FECHA")
-// ══════════════════════════════════════
-async function fetchTab(sheetId, tabName){
-  const url=`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tabName)}`;
-  try{
-    const res=await fetch(url);
-    if(!res.ok)return[];
-    const txt=await res.text();
-    return parseTabCSV(txt, tabName);
-  }catch(e){return[];}
-}
-
 function splitLine(line){
-  const re=/("(?:[^"]|"")*"|[^,]*)/g;
-  const out=[];let m;
-  while((m=re.exec(line))!==null){
-    if(m.index===re.lastIndex)re.lastIndex++;
-    out.push(m[1].replace(/^"|"$/g,'').replace(/""/g,'"').trim());
+  const out=[];
+  let cur='',inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='"'){
+      if(inQ&&line[i+1]==='"'){cur+='"';i++;}
+      else inQ=!inQ;
+    } else if(ch===','&&!inQ){
+      out.push(cur.trim());cur='';
+    } else cur+=ch;
   }
+  out.push(cur.trim());
   return out;
 }
 
-function parseTabCSV(txt, tabName){
+async function fetchTab(pubId, gid, name){
+  const url=`https://docs.google.com/spreadsheets/d/e/${pubId}/pub?gid=${gid}&single=true&output=csv`;
+  try{
+    const res=await fetch(url);
+    if(!res.ok){console.warn(`${name}: HTTP ${res.status}`);return[];}
+    const txt=await res.text();
+    return parseTab(txt,name);
+  }catch(e){console.error(`${name}:`,e);return[];}
+}
+
+function parseTab(txt,name){
   const lines=txt.trim().split('\n');
   if(lines.length<3)return[];
 
-  // Encuentra la fila de encabezados buscando "IMPORTE" o "FECHA"
-  let hdrIdx=-1;
-  for(let i=0;i<Math.min(5,lines.length);i++){
+  // Encuentra fila con encabezados (contiene "IMPORTE" y "GASTADO")
+  let hdr=-1;
+  for(let i=0;i<Math.min(8,lines.length);i++){
     const low=lines[i].toLowerCase();
-    if(low.includes('importe')&&low.includes('gastado')){hdrIdx=i;break;}
-    if(low.includes('fecha')&&low.includes('importe')){hdrIdx=i;break;}
+    if(low.includes('importe')&&low.includes('gastado')){hdr=i;break;}
   }
-  if(hdrIdx===-1)return[];
+  if(hdr===-1){console.warn(`${name}: no encontré encabezados`);return[];}
 
   const rows=[];
-  for(let i=hdrIdx+1;i<lines.length;i++){
-    const vals=splitLine(lines[i]);
-    if(vals.length<5)continue;
-
-    // La fecha está en col A (índice 0) — busca en hdrIdx-1 también
-    // En tus sheets la fecha está en columna A (índice 0)
-    const dateRaw=(vals[0]||'').trim();
+  for(let i=hdr+1;i<lines.length;i++){
+    const v=splitLine(lines[i]);
+    if(v.length<10)continue;
+    const dateRaw=(v[0]||'').replace(/"/g,'').trim();
     if(!dateRaw||dateRaw===''||dateRaw.toLowerCase().includes('fecha'))continue;
+    // Saltar filas de totales (primera celda vacía o con $)
+    if(dateRaw.startsWith('$')||dateRaw.startsWith('"$'))continue;
 
     const date=pd(dateRaw);
+    const inv  =pn(v[C.INV]);
+    const conv =pn(v[C.CONV]);
+    const ag   =pn(v[C.AG]);
+    const apart=pn(v[C.APART]);
+    const ven  =pn(v[C.VEN]);
+    const cac  =pn(v[C.CAC]);
+    const liq  =pn(v[C.LIQ]);
+    const roas =pn(v[C.ROAS]);
 
-    const inv  =pn(vals[COL.INV]  ||'0');
-    const conv =pn(vals[COL.CONV] ||'0');
-    const cconv=pn(vals[COL.CCONV]||'0');
-    const ag   =pn(vals[COL.AG]   ||'0');
-    const apart=pn(vals[COL.APART]||'0');
-    const ven  =pn(vals[COL.VEN]  ||'0');
-    const cac  =pn(vals[COL.CAC]  ||'0');
-    const liq  =pn(vals[COL.LIQ]  ||'0');
-    const roas =pn(vals[COL.ROAS] ||'0');
-
-    // Solo incluye filas con algún dato real
     if(inv===0&&conv===0&&ven===0&&liq===0&&ag===0)continue;
 
-    rows.push({_date:date,_dstr:dateRaw,_tab:tabName,_inv:inv,_conv:conv,_cconv:cconv,_ag:ag,_apart:apart,_ven:ven,_cac:cac,_liq:liq,_roas:roas});
+    rows.push({_date:date,_dstr:dateRaw,_tab:name,_inv:inv,_conv:conv,_ag:ag,_apart:apart,_ven:ven,_cac:cac,_liq:liq,_roas:roas});
   }
+  console.log(`${name}: ${rows.length} filas`);
   return rows;
 }
 
-// ══════════════════════════════════════
-// FILTRAR POR PERÍODO
-// ══════════════════════════════════════
 function filterRows(rows,period){
   const today=new Date();today.setHours(0,0,0,0);
   const yest=new Date(today);yest.setDate(yest.getDate()-1);
@@ -261,22 +243,17 @@ function filterRows(rows,period){
   return rows.filter(r=>r._date&&r._date>=cut);
 }
 
-// ══════════════════════════════════════
-// TOTALES
-// ══════════════════════════════════════
 function totals(rows){
   let inv=0,conv=0,ag=0,apart=0,ven=0,liq=0;
   rows.forEach(r=>{inv+=r._inv;conv+=r._conv;ag+=r._ag;apart+=r._apart;ven+=r._ven;liq+=r._liq;});
-  const roas=inv>0?liq/inv:0;
-  const cconv=conv>0?inv/conv:0;
-  const cag=ag>0?inv/ag:0;
-  const cac=ven>0?inv/ven:0;
-  return{inv,conv,cconv,ag,apart,ven,cac,liq,roas,count:rows.length};
+  return{inv,conv,ag,apart,ven,liq,
+    roas:inv>0?liq/inv:0,
+    cconv:conv>0?inv/conv:0,
+    cag:ag>0?inv/ag:0,
+    cac:ven>0?inv/ven:0,
+    count:rows.length};
 }
 
-// ══════════════════════════════════════
-// AGRUPAR PARA GRÁFICAS
-// ══════════════════════════════════════
 function bucket(rows,period){
   const byDay=period==='hoy'||period==='ayer'||period===7||period===14;
   const byWeek=period===30||period===60;
@@ -293,15 +270,9 @@ function bucket(rows,period){
   return b;
 }
 
-// ══════════════════════════════════════
-// STATE
-// ══════════════════════════════════════
 let ALL_ROWS=[];
 let CHARTS={};
 
-// ══════════════════════════════════════
-// RENDER DASHBOARD
-// ══════════════════════════════════════
 function renderDash(period){
   const rows=filterRows(ALL_ROWS,period);
   const t=totals(rows);
@@ -327,9 +298,7 @@ function renderDash(period){
   </div>
   <div class="cc"><div class="ct">Liquidación vs inversión MXN</div><div style="position:relative;height:200px"><canvas id="c3"></canvas></div></div>`;
 
-  Object.values(CHARTS).forEach(c=>{try{c.destroy()}catch(e){}});
-  CHARTS={};
-
+  Object.values(CHARTS).forEach(c=>{try{c.destroy()}catch(e){}});CHARTS={};
   const bo={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
     scales:{x:{ticks:{color:'#9CA3AF',font:{size:10},maxRotation:45},grid:{color:'rgba(0,0,0,0.05)'}},
             y:{ticks:{color:'#9CA3AF',font:{size:10}},grid:{color:'rgba(0,0,0,0.05)'}}}};
@@ -346,10 +315,9 @@ function renderDash(period){
     {label:'Inversión',  data:lbls.map(k=>Math.round(b[k].inv)),backgroundColor:'#9FE1CB',borderRadius:4}
   ]}});
 
-  // Tabla diaria
   const trows=[...rows].filter(r=>r._date).sort((a,b)=>b._date-a._date).slice(0,90);
   document.getElementById('d-table').innerHTML=`
-  <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 10px">Detalle por día (${trows.length} registros)</div>
+  <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 10px">${trows.length} registros</div>
   <div class="dtw"><table>
     <thead><tr><th>Fecha</th><th>Inversión MXN</th><th>Conv WA</th><th>Costo/conv</th><th>Agendados</th><th>Apartado MXN</th><th>Ventas</th><th>CAC</th><th>Liquidación MXN</th><th>ROAS</th></tr></thead>
     <tbody>${trows.map(r=>`<tr>
@@ -369,42 +337,33 @@ function renderDash(period){
 
 function setPeriod(el,p){
   document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('on'));
-  el.classList.add('on');
-  renderDash(p);
+  el.classList.add('on');renderDash(p);
 }
 
-// ══════════════════════════════════════
-// CARGAR CLIENTE
-// ══════════════════════════════════════
 async function openClientDash(clientId){
   const cfg=CLIENTS.find(c=>c.id===clientId);
   if(!cfg)return;
-
   document.getElementById('d-av').textContent  =cfg.avatar;
   document.getElementById('d-name').textContent=cfg.name;
   document.getElementById('d-meta').textContent=cfg.specialty+' · datos en tiempo real';
   document.getElementById('d-link').textContent=`trakken-dashboard.vercel.app/cliente/${cfg.id}`;
   document.getElementById('back-btn').style.display='flex';
-  document.getElementById('d-metrics').innerHTML='<div class="loading">Leyendo todas las pestañas de Google Sheets...</div>';
+  document.getElementById('d-metrics').innerHTML='<div class="loading">Leyendo Google Sheets...</div>';
   document.getElementById('d-charts').innerHTML='';
   document.getElementById('d-table').innerHTML='';
   document.querySelectorAll('.ptab').forEach((t,i)=>t.classList.toggle('on',i===0));
   show('v-dash');
 
   try{
-    // Lee todas las pestañas en paralelo
-    const tabResults=await Promise.all(cfg.sheets.map(s=>fetchTab(cfg.sheetId,s)));
+    const tabResults=await Promise.all(cfg.tabs.map(tab=>fetchTab(cfg.pubId,tab.gid,tab.name)));
     ALL_ROWS=tabResults.flat();
+    console.log('Total filas:', ALL_ROWS.length);
 
-    const dbg=document.getElementById('d-debug');
     if(ALL_ROWS.length===0){
-      dbg.style.display='block';
-      dbg.textContent='⚠️ No se encontraron datos con inversión/ventas en ninguna pestaña.\nVerifica que el Sheet sea público.';
-      document.getElementById('d-metrics').innerHTML='<div class="loading">Sin datos disponibles.</div>';
+      document.getElementById('d-metrics').innerHTML='<div class="loading">⚠️ Sin datos. Verifica que el Sheet esté publicado en la web.</div>';
       return;
     }
 
-    // Si no hay datos hoy, muestra todo
     const hoy=filterRows(ALL_ROWS,'hoy');
     if(hoy.length===0){
       document.querySelectorAll('.ptab').forEach((t,i)=>t.classList.toggle('on',i===7));
@@ -413,40 +372,27 @@ async function openClientDash(clientId){
       renderDash('hoy');
     }
   }catch(e){
-    document.getElementById('d-metrics').innerHTML=
-      '<div class="loading">⚠️ Error al conectar. Asegúrate que el Sheet sea público (solo lectura).</div>';
+    console.error(e);
+    document.getElementById('d-metrics').innerHTML='<div class="loading">⚠️ Error al conectar con Google Sheets.</div>';
   }
 }
 
-// ══════════════════════════════════════
-// ADMIN
-// ══════════════════════════════════════
 async function initAdmin(){
   document.getElementById('a-date').textContent=
     new Date().toLocaleDateString('es-MX',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-
   const results=await Promise.all(CLIENTS.map(async cfg=>{
     try{
-      const tabs=await Promise.all(cfg.sheets.map(s=>fetchTab(cfg.sheetId,s)));
-      const rows=tabs.flat();
-      return{cfg,t:totals(rows)};
+      const tabs=await Promise.all(cfg.tabs.map(tab=>fetchTab(cfg.pubId,tab.gid,tab.name)));
+      return{cfg,t:totals(tabs.flat())};
     }catch(e){return{cfg,t:null};}
   }));
-
-  document.getElementById('a-count').textContent=
-    `${results.length} cliente${results.length!==1?'s':''} activo${results.length!==1?'s':''}`;
-
+  document.getElementById('a-count').textContent=`${results.length} cliente${results.length!==1?'s':''} activo${results.length!==1?'s':''}`;
   let tI=0,tV=0,tL=0,rS=0,rN=0;
-  results.forEach(({t})=>{
-    if(!t)return;
-    tI+=t.inv;tV+=t.ven;tL+=t.liq;
-    if(t.roas>0){rS+=t.roas;rN++;}
-  });
+  results.forEach(({t})=>{if(!t)return;tI+=t.inv;tV+=t.ven;tL+=t.liq;if(t.roas>0){rS+=t.roas;rN++;}});
   document.getElementById('a-inv').textContent =mxn(tI);
   document.getElementById('a-ven').textContent =tV;
   document.getElementById('a-liq').textContent =mxn(tL);
   document.getElementById('a-roas').textContent=rN>0?(rS/rN).toFixed(1)+'x':'—';
-
   const tbody=document.getElementById('a-tbody');
   tbody.innerHTML='';
   results.forEach(({cfg,t})=>{
@@ -466,19 +412,12 @@ function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.remo
 function goAdmin(){show('v-admin');initAdmin()}
 function copyLink(){
   navigator.clipboard.writeText(document.getElementById('d-link').textContent).catch(()=>{});
-  const b=document.getElementById('copy-btn');
-  b.textContent='✓ Copiado';setTimeout(()=>b.textContent='Copiar link',2000);
+  const b=document.getElementById('copy-btn');b.textContent='✓ Copiado';setTimeout(()=>b.textContent='Copiar link',2000);
 }
-
-// ROUTING
 (function(){
   const m=window.location.pathname.match(/\/cliente\/(.+)/);
-  if(m&&CLIENTS.find(c=>c.id===m[1])){
-    document.getElementById('back-btn').style.display='none';
-    openClientDash(m[1]);
-  }else{
-    initAdmin();
-  }
+  if(m&&CLIENTS.find(c=>c.id===m[1])){document.getElementById('back-btn').style.display='none';openClientDash(m[1]);}
+  else initAdmin();
 })();
 </script>
 </body>
