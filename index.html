@@ -5,542 +5,622 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trakken Agency · Portal de Clientes</title>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --teal: #1D9E75; --teal-light: #E1F5EE; --teal-mid: #5DCAA5;
-      --bg: #F7F8FA; --surface: #FFFFFF; --border: rgba(0,0,0,0.08);
-      --text: #1A1A1A; --text-muted: #6B7280;
-      --green-bg: #EAF3DE; --green-text: #3B6D11;
-      --amber-bg: #FAEEDA; --amber-text: #854F0B;
-      --red-bg: #FCEBEB; --red-text: #A32D2D;
-      --radius: 10px; --radius-lg: 14px;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --teal:#1D9E75;--teal-light:#E1F5EE;--teal-mid:#5DCAA5;
+      --bg:#F7F8FA;--surface:#fff;--border:rgba(0,0,0,0.08);
+      --text:#1A1A1A;--muted:#6B7280;--hint:#9CA3AF;
+      --green-bg:#EAF3DE;--green-tx:#3B6D11;
+      --amber-bg:#FAEEDA;--amber-tx:#854F0B;
+      --red-bg:#FCEBEB;--red-tx:#A32D2D;
+      --r:10px;--rl:14px;
     }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; min-height: 100vh; }
-    .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-    .logo { display: flex; align-items: center; gap: 10px; }
-    .logo-mark { width: 34px; height: 34px; background: var(--teal); border-radius: 9px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px; }
-    .logo-text { font-size: 15px; font-weight: 600; }
-    .logo-sub { font-size: 11px; color: var(--text-muted); }
-    .back-btn { display: flex; align-items: center; gap: 6px; padding: 7px 14px; border: 1px solid var(--border); border-radius: 8px; background: transparent; font-size: 13px; color: var(--text-muted); cursor: pointer; }
-    .back-btn:hover { background: var(--bg); }
-    .view { display: none; }
-    .view.active { display: block; }
-    .page-body { padding: 28px 24px; max-width: 1100px; margin: 0 auto; }
-    .page-title { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
-    .page-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
-    .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 28px; }
-    .sum-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
-    .sum-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
-    .sum-val { font-size: 26px; font-weight: 600; line-height: 1; }
-    .sum-delta { font-size: 12px; color: var(--teal); margin-top: 4px; }
-    .section-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 12px; }
-    .clients-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
-    table { width: 100%; border-collapse: collapse; }
-    th { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); padding: 10px 16px; text-align: left; border-bottom: 1px solid var(--border); background: #FAFAFA; }
-    td { padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 13px; }
-    tr:last-child td { border-bottom: none; }
-    tbody tr:hover { background: var(--bg); }
-    .pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
-    .pill-green { background: var(--green-bg); color: var(--green-text); }
-    .pill-amber { background: var(--amber-bg); color: var(--amber-text); }
-    .pill-red { background: var(--red-bg); color: var(--red-text); }
-    .view-btn { padding: 6px 14px; font-size: 12px; font-weight: 500; border: 1.5px solid var(--teal); border-radius: 7px; color: var(--teal); background: transparent; cursor: pointer; }
-    .view-btn:hover { background: var(--teal-light); }
-    .dash-body { padding: 24px; max-width: 1100px; margin: 0 auto; }
-    .client-hdr { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
-    .avatar { width: 46px; height: 46px; border-radius: 12px; background: var(--teal); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 15px; }
-    .client-name { font-size: 18px; font-weight: 600; }
-    .client-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-    .period-bar { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
-    .ptab { padding: 6px 14px; font-size: 12px; font-weight: 500; border-radius: 20px; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text-muted); white-space: nowrap; }
-    .ptab.on { background: var(--teal); color: #fff; border-color: var(--teal); }
-    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 10px; margin-bottom: 20px; }
-    .m-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
-    .m-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
-    .m-val { font-size: 20px; font-weight: 600; line-height: 1; }
-    .m-delta { font-size: 11px; margin-top: 5px; }
-    .up { color: var(--teal); } .dn { color: var(--red-text); }
-    .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-    .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; }
-    .chart-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
-    .loading-box { text-align: center; padding: 40px; color: var(--text-muted); font-size: 13px; }
-    .share-footer { background: var(--surface); border-top: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; gap: 10px; position: sticky; bottom: 0; }
-    .link-box { flex: 1; font-size: 12px; font-family: monospace; background: var(--bg); border: 1px solid var(--border); border-radius: 7px; padding: 8px 12px; color: var(--teal); }
-    .copy-btn { padding: 8px 16px; font-size: 12px; font-weight: 500; border: 1px solid var(--border); border-radius: 7px; background: transparent; cursor: pointer; white-space: nowrap; }
-    .copy-btn:hover { background: var(--bg); }
-    .tag-live { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500; color: var(--teal); background: var(--teal-light); padding: 3px 10px; border-radius: 20px; }
-    .dot-live { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: pulse 1.5s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-    /* Daily table */
-    .data-table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 70px; }
-    .data-table-wrap table th { background: #FAFAFA; }
-    .data-table-wrap table td { font-size: 12px; padding: 10px 14px; }
-    @media (max-width: 700px) { .charts-row { grid-template-columns: 1fr; } .summary-grid { grid-template-columns: 1fr 1fr; } .page-body, .dash-body { padding: 16px; } .period-bar { gap: 4px; } .ptab { padding: 5px 10px; font-size: 11px; } }
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
+    /* topbar */
+    .bar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+    .logo{display:flex;align-items:center;gap:10px}
+    .mark{width:34px;height:34px;background:var(--teal);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px}
+    .logo-t{font-size:15px;font-weight:600}
+    .logo-s{font-size:11px;color:var(--muted)}
+    .back{display:flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid var(--border);border-radius:8px;background:transparent;font-size:13px;color:var(--muted);cursor:pointer}
+    .back:hover{background:var(--bg)}
+    /* views */
+    .view{display:none}.view.active{display:block}
+    /* body wrap */
+    .wrap{padding:24px;max-width:1100px;margin:0 auto}
+    /* summary cards */
+    .sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:24px}
+    .sc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+    .sl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+    .sv{font-size:24px;font-weight:600;line-height:1}
+    .sd{font-size:12px;color:var(--teal);margin-top:4px}
+    /* section label */
+    .stitle{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px}
+    /* clients table */
+    .cw{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden}
+    table{width:100%;border-collapse:collapse}
+    th{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);background:#FAFAFA}
+    td{padding:12px 14px;border-bottom:1px solid var(--border);font-size:12px}
+    tr:last-child td{border-bottom:none}
+    tbody tr:hover{background:var(--bg)}
+    /* pill */
+    .pill{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+    .pg{background:var(--green-bg);color:var(--green-tx)}
+    .pa{background:var(--amber-bg);color:var(--amber-tx)}
+    .pr{background:var(--red-bg);color:var(--red-tx)}
+    /* view btn */
+    .vbtn{padding:5px 12px;font-size:12px;font-weight:500;border:1.5px solid var(--teal);border-radius:7px;color:var(--teal);background:transparent;cursor:pointer}
+    .vbtn:hover{background:var(--teal-light)}
+    /* client header */
+    .chdr{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+    .av{width:46px;height:46px;border-radius:12px;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px}
+    .cn{font-size:18px;font-weight:600}
+    .cm{font-size:12px;color:var(--muted);margin-top:2px}
+    /* tag live */
+    .tlive{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:var(--teal);background:var(--teal-light);padding:3px 10px;border-radius:20px}
+    .dlive{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 1.5s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+    /* period tabs */
+    .ptabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+    .ptab{padding:6px 14px;font-size:12px;font-weight:500;border-radius:20px;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);white-space:nowrap}
+    .ptab.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+    /* metrics grid */
+    .mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:20px}
+    .mc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+    .ml{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+    .mv{font-size:20px;font-weight:600;line-height:1}
+    .md{font-size:11px;margin-top:4px;color:var(--muted)}
+    .up{color:var(--teal)}.dn{color:var(--red-tx)}
+    /* charts */
+    .cr{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+    .cc{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:18px;margin-bottom:14px}
+    .ct{font-size:13px;font-weight:600;margin-bottom:14px}
+    /* data table */
+    .dtw{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:auto;margin-bottom:80px}
+    .dtw table th{font-size:10px;padding:8px 12px}
+    .dtw table td{font-size:11px;padding:8px 12px}
+    /* footer */
+    .footer{background:var(--surface);border-top:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:10px;position:sticky;bottom:0}
+    .lbox{flex:1;font-size:12px;font-family:monospace;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--teal)}
+    .cbtn{padding:8px 16px;font-size:12px;font-weight:500;border:1px solid var(--border);border-radius:7px;background:transparent;cursor:pointer;white-space:nowrap}
+    .cbtn:hover{background:var(--bg)}
+    .lbox-lbl{font-size:12px;color:var(--muted);white-space:nowrap}
+    /* loading */
+    .loading{text-align:center;padding:40px;color:var(--muted);font-size:13px}
+    @media(max-width:700px){.cr{grid-template-columns:1fr}.sg{grid-template-columns:1fr 1fr}.wrap{padding:14px}.ptabs{gap:4px}.ptab{padding:5px 9px;font-size:11px}}
   </style>
 </head>
 <body>
 
-<!-- ADMIN VIEW -->
+<!-- ══════════ ADMIN ══════════ -->
 <div id="v-admin" class="view active">
-  <div class="topbar">
+  <div class="bar">
     <div class="logo">
-      <div class="logo-mark">TK</div>
-      <div><div class="logo-text">Trakken Agency</div><div class="logo-sub">Panel de agencia</div></div>
+      <div class="mark">TK</div>
+      <div><div class="logo-t">Trakken Agency</div><div class="logo-s">Panel de agencia</div></div>
     </div>
-    <span id="active-count" style="font-size:12px;color:var(--text-muted);"></span>
+    <span id="a-count" style="font-size:12px;color:var(--muted)"></span>
   </div>
-  <div class="page-body">
-    <div class="page-title">Resumen de clientes</div>
-    <div class="page-sub" id="admin-date"></div>
-    <div class="summary-grid">
-      <div class="sum-card"><div class="sum-label">Inversión total</div><div class="sum-val" id="tot-inv">—</div><div class="sum-delta">MXN acumulado</div></div>
-      <div class="sum-card"><div class="sum-label">Ventas totales</div><div class="sum-val" id="tot-ventas">—</div><div class="sum-delta">cierres confirmados</div></div>
-      <div class="sum-card"><div class="sum-label">Facturación total</div><div class="sum-val" id="tot-fac">—</div><div class="sum-delta">MXN generados</div></div>
-      <div class="sum-card"><div class="sum-label">ROAS promedio</div><div class="sum-val" id="tot-roas">—</div><div class="sum-delta">retorno sobre inversión</div></div>
+  <div class="wrap">
+    <div style="font-size:20px;font-weight:600;margin-bottom:4px">Resumen de clientes</div>
+    <div id="a-date" style="font-size:13px;color:var(--muted);margin-bottom:24px"></div>
+    <div class="sg">
+      <div class="sc"><div class="sl">Inversión total</div><div class="sv" id="a-inv">—</div><div class="sd">MXN acumulado</div></div>
+      <div class="sc"><div class="sl">Ventas totales</div><div class="sv" id="a-ven">—</div><div class="sd">cierres confirmados</div></div>
+      <div class="sc"><div class="sl">Liquidación total</div><div class="sv" id="a-liq">—</div><div class="sd">MXN facturado</div></div>
+      <div class="sc"><div class="sl">ROAS promedio</div><div class="sv" id="a-roas">—</div><div class="sd">retorno general</div></div>
     </div>
-    <div class="section-title">Clientes</div>
-    <div class="clients-wrap">
+    <div class="stitle">Clientes</div>
+    <div class="cw">
       <table>
-        <thead><tr><th>Cliente</th><th>Inversión MXN</th><th>Mensajes</th><th>Agendados</th><th>Ventas</th><th>Facturación MXN</th><th>ROAS</th><th>Estado</th><th></th></tr></thead>
-        <tbody id="clients-tbody"><tr><td colspan="9"><div class="loading-box">Cargando datos...</div></td></tr></tbody>
+        <thead><tr><th>Cliente</th><th>Inversión MXN</th><th>Conversaciones WA</th><th>Agendados</th><th>Ventas</th><th>Liquidación MXN</th><th>ROAS</th><th>Estado</th><th></th></tr></thead>
+        <tbody id="a-tbody"><tr><td colspan="9"><div class="loading">Cargando datos desde Google Sheets...</div></td></tr></tbody>
       </table>
     </div>
   </div>
 </div>
 
-<!-- CLIENT DASHBOARD VIEW -->
+<!-- ══════════ DASHBOARD CLIENTE ══════════ -->
 <div id="v-dash" class="view">
-  <div class="topbar">
+  <div class="bar">
     <div class="logo">
-      <div class="logo-mark">TK</div>
-      <div><div class="logo-text">Trakken Agency</div><div class="logo-sub">Dashboard de resultados</div></div>
+      <div class="mark">TK</div>
+      <div><div class="logo-t">Trakken Agency</div><div class="logo-s">Dashboard de resultados</div></div>
     </div>
-    <button class="back-btn" onclick="goAdmin()" id="back-admin-btn" style="display:none">← Panel agencia</button>
+    <button class="back" id="back-btn" onclick="goAdmin()" style="display:none">← Panel agencia</button>
   </div>
-  <div class="dash-body">
-    <div class="client-hdr">
-      <div class="avatar" id="d-avatar">YC</div>
+  <div class="wrap">
+    <div class="chdr">
+      <div class="av" id="d-av">YC</div>
       <div>
-        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-          <div class="client-name" id="d-name">Yvsen Clinic</div>
-          <span class="tag-live"><span class="dot-live"></span>En vivo</span>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <div class="cn" id="d-name">—</div>
+          <span class="tlive"><span class="dlive"></span>En vivo</span>
         </div>
-        <div class="client-meta" id="d-meta">Datos actualizados desde Google Sheets</div>
+        <div class="cm" id="d-meta">—</div>
       </div>
     </div>
 
-    <div class="period-bar" id="period-bar">
-      <button class="ptab on"  onclick="setPeriod(this,0)">Todo</button>
-      <button class="ptab"     onclick="setPeriod(this,1)">Hoy</button>
-      <button class="ptab"     onclick="setPeriod(this,7)">7 días</button>
-      <button class="ptab"     onclick="setPeriod(this,30)">30 días</button>
-      <button class="ptab"     onclick="setPeriod(this,60)">60 días</button>
-      <button class="ptab"     onclick="setPeriod(this,90)">90 días</button>
-      <button class="ptab"     onclick="setPeriod(this,180)">180 días</button>
-      <button class="ptab"     onclick="setPeriod(this,365)">365 días</button>
+    <div class="ptabs">
+      <button class="ptab on"  onclick="setPeriod(this,'hoy')">Hoy</button>
+      <button class="ptab"     onclick="setPeriod(this,'ayer')">Ayer</button>
+      <button class="ptab"     onclick="setPeriod(this,7)">Últimos 7 días</button>
+      <button class="ptab"     onclick="setPeriod(this,14)">Últimos 14 días</button>
+      <button class="ptab"     onclick="setPeriod(this,30)">Últimos 30 días</button>
+      <button class="ptab"     onclick="setPeriod(this,60)">Últimos 60 días</button>
+      <button class="ptab"     onclick="setPeriod(this,90)">Últimos 90 días</button>
+      <button class="ptab"     onclick="setPeriod(this,0)">Todo el período</button>
     </div>
 
-    <div id="metrics-area"><div class="loading-box">Cargando métricas...</div></div>
-    <div id="charts-area"></div>
-    <div id="table-area"></div>
+    <div id="d-metrics"><div class="loading">Cargando métricas...</div></div>
+    <div id="d-charts"></div>
+    <div id="d-table"></div>
   </div>
-  <div class="share-footer">
-    <div style="font-size:12px;color:var(--text-muted);white-space:nowrap;">Link cliente:</div>
-    <div class="link-box" id="d-link">trakken-dashboard.vercel.app/cliente/yvsen-clinic</div>
-    <button class="copy-btn" onclick="copyLink()" id="copy-btn">Copiar link</button>
+  <div class="footer">
+    <div class="lbox-lbl">Link cliente:</div>
+    <div class="lbox" id="d-link">—</div>
+    <button class="cbtn" id="copy-btn" onclick="copyLink()">Copiar link</button>
   </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-// ═══════════════════════════════════════
-// CONFIGURACIÓN DE CLIENTES
-// Para agregar clientes nuevos, copia un bloque y edita los valores
-// ═══════════════════════════════════════
-const CLIENTS_CONFIG = [
+// ══════════════════════════════════════════════════════
+// CONFIGURACIÓN — agrega aquí cada cliente nuevo
+// ══════════════════════════════════════════════════════
+const CLIENTS = [
   {
-    id: 'yvsen-clinic',
-    name: 'Yvsen Clinic',
+    id:        'yvsen-clinic',
+    name:      'Yvsen Clinic',
     specialty: 'Clínica estética',
-    avatar: 'YC',
-    sheetId: '1ninrRFjKKARkcq0sqWtjzLNJ97OjMyDtBWFrEjnqzOA',
-    sheetName: 'DATA',
-    currency: 'MXN'
+    avatar:    'YC',
+    sheetId:   '1ninrRFjKKARkcq0sqWtjzLNJ97OjMyDtBWFrEjnqzOA',
+    // Todas las pestañas con datos — agrega más si creas nuevas
+    sheets: [
+      'abril - mayo',
+      'mayo - junio',
+      'junio - julio',
+      'julio - agosto',
+      'agosto - septiembre',
+      'septiembre - octubre',
+      'octubre - noviembre',
+      'noviembre - diciembre',
+      'diciembre - enero',
+      'enero - febrero',
+      'febrero - marzo',
+      'marzo - abril'
+    ]
   }
+  // Ejemplo para agregar otro cliente:
+  // {
+  //   id: 'clinica-ejemplo',
+  //   name: 'Clínica Ejemplo',
+  //   specialty: 'Especialidad',
+  //   avatar: 'CE',
+  //   sheetId: 'ID_DEL_SHEET_AQUI',
+  //   sheets: ['Hoja1']
+  // }
 ];
 
-// ═══════════════════════════════════════
-// PARSE HELPERS
-// ═══════════════════════════════════════
-function parseNum(v) {
+// ══════════════════════════════════════════════════════
+// COLUMNAS QUE SE MUESTRAN (según tu Sheet)
+// B  = IMPORTE GASTADO (MXN)
+// J  = CONVERSACIÓN INICIADA EN WHATSAPP
+// K  = COSTO POR CONVERSACION INICIADA
+// P  = AGENDADO
+// Q  = APARTADO X AGENDA MX
+// T  = VENTAS
+// V  = CAC
+// W  = LIQUIDACION DE VENTA
+// Y  = ROAS DIARIO
+// ══════════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════════
+function pn(v) {
   if (!v || typeof v !== 'string') return 0;
-  const s = v.replace(/[^0-9.\-]/g, '');
-  return parseFloat(s) || 0;
+  const s = v.replace(/[^0-9.\-]/g,'');
+  const n = parseFloat(s);
+  return isNaN(n) ? 0 : n;
 }
 
-function parseDate(s) {
+function pd(s) {
   if (!s) return null;
   s = s.trim().replace(/"/g,'');
+  // dd/mm/yyyy o d/m/yyyy
   const p = s.split('/');
   if (p.length === 3) {
     const d = parseInt(p[0]), m = parseInt(p[1]), y = parseInt(p[2]);
-    if (!isNaN(d) && !isNaN(m) && !isNaN(y)) return new Date(y, m-1, d);
+    if (!isNaN(d) && !isNaN(m) && !isNaN(y) && y > 1000) return new Date(y, m-1, d);
   }
-  const t = Date.parse(s);
-  return isNaN(t) ? null : new Date(t);
+  // "18 de abril" style — no tiene año, ignorar para filtros
+  return null;
 }
 
-function fmtMXN(n) {
+function mxn(n) {
   return '$' + Math.round(n).toLocaleString('es-MX');
 }
 
-function fmtRound(n, dec=2) {
-  return isFinite(n) && n > 0 ? n.toFixed(dec) : '—';
+function safe(n, dec=1) {
+  return (isFinite(n) && n > 0) ? n.toFixed(dec) : '—';
 }
 
-// ═══════════════════════════════════════
-// FETCH GOOGLE SHEET CSV
-// ═══════════════════════════════════════
-async function fetchSheet(sheetId, sheetName) {
-  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
-  const res = await fetch(url);
-  const text = await res.text();
-  return parseCSV(text);
+// ══════════════════════════════════════════════════════
+// FETCH — lee UNA pestaña como CSV
+// ══════════════════════════════════════════════════════
+async function fetchTab(sheetId, tabName) {
+  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tabName)}`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    const txt = await res.text();
+    return parseCSV(txt);
+  } catch(e) { return []; }
 }
 
-function parseCSV(text) {
-  const lines = text.trim().split('\n');
-  const rawHeaders = lines[0].match(/(".*?"|[^,\n]+)/g) || [];
-  const headers = rawHeaders.map(h => h.replace(/"/g,'').trim());
+function parseCSV(txt) {
+  const lines = txt.trim().split('\n');
+  if (lines.length < 2) return [];
+  const hdrs = splitCSVLine(lines[0]).map(h => h.replace(/"/g,'').trim());
   const rows = [];
   for (let i = 1; i < lines.length; i++) {
-    const vals = lines[i].match(/(".*?"|[^,\n]*)/g) || [];
+    const vals = splitCSVLine(lines[i]);
     const row = {};
-    headers.forEach((h, j) => { row[h] = (vals[j] || '').replace(/"/g,'').trim(); });
+    hdrs.forEach((h, j) => row[h] = (vals[j]||'').replace(/"/g,'').trim());
     rows.push(row);
   }
-  return { headers, rows };
+  return rows;
 }
 
-// ═══════════════════════════════════════
-// DETECTAR COLUMNA DE INVERSIÓN
-// (maneja espacios y variantes de nombre)
-// ═══════════════════════════════════════
-function getInv(row, headers) {
-  // Busca cualquier columna que contenga "Inver" (case-insensitive)
-  const col = headers.find(h => h.toLowerCase().includes('inver'));
-  if (!col) return 0;
-  return parseNum(row[col]);
-}
-
-// ═══════════════════════════════════════
-// FILTRAR ROWS POR PERÍODO (días atrás)
-// days=0 => todo
-// ═══════════════════════════════════════
-function filterByDays(rows, days) {
-  const active = rows.filter(r => r._inv > 0 || r._msg > 0 || r._ventas > 0);
-  if (days === 0) return active;
-  if (days === 1) {
-    // Solo hoy
-    const today = new Date();
-    today.setHours(0,0,0,0);
-    return active.filter(r => r._date && r._date >= today);
+function splitCSVLine(line) {
+  const re = /("(?:[^"]|"")*"|[^,]*)/g;
+  const out = [];
+  let m;
+  while ((m = re.exec(line)) !== null) {
+    if (m.index === re.lastIndex) re.lastIndex++;
+    out.push(m[1]);
   }
-  const cutoff = new Date();
-  cutoff.setDate(cutoff.getDate() - days);
-  cutoff.setHours(0,0,0,0);
+  return out;
+}
+
+// ══════════════════════════════════════════════════════
+// NORMALIZAR ROW — mapea columnas de tu Sheet a campos fijos
+// ══════════════════════════════════════════════════════
+function normalizeRow(row) {
+  // Busca la columna por fragmento de nombre (robusto a espacios/mayúsculas)
+  const get = (...keys) => {
+    for (const k of keys) {
+      const found = Object.keys(row).find(h => h.toLowerCase().includes(k.toLowerCase()));
+      if (found && row[found] && row[found] !== '#DIV/0!') return row[found];
+    }
+    return '0';
+  };
+
+  const dateRaw = get('FECHA','Fecha','fecha');
+  const date    = pd(dateRaw);
+
+  return {
+    _date:   date,
+    _dstr:   dateRaw,
+    _inv:    pn(get('IMPORTE GASTADO (MXN)','importe gastado (mxn)','IMPORTE GASTADO')),
+    _conv:   pn(get('CONVERSACIÓN INICIADA EN WHATSAPP','CONVERSACION INICIADA EN WHATSAPP','conversaci')),
+    _cconv:  pn(get('COSTO POR CONVERSACION','costo por conversaci')),
+    _ag:     pn(get('AGENDADO','agendado')),
+    _apart:  pn(get('APARTADO X AGENDA','apartado x agenda')),
+    _ven:    pn(get('VENTAS','ventas')),
+    _cac:    pn(get('CAC','cac')),
+    _liq:    pn(get('LIQUIDACION','liquidaci')),
+    _roas:   pn(get('ROAS DIARIO','roas diario','roas')),
+  };
+}
+
+// ══════════════════════════════════════════════════════
+// FILTRAR POR PERÍODO
+// ══════════════════════════════════════════════════════
+function filterRows(rows, period) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const yest  = new Date(today); yest.setDate(yest.getDate()-1);
+
+  // Solo filas con algún dato real
+  const active = rows.filter(r => r._inv > 0 || r._conv > 0 || r._ven > 0 || r._liq > 0);
+
+  if (period === 'hoy')  return active.filter(r => r._date && r._date.getTime() === today.getTime());
+  if (period === 'ayer') return active.filter(r => r._date && r._date.getTime() === yest.getTime());
+  if (period === 0)      return active;
+
+  const cutoff = new Date(today);
+  cutoff.setDate(cutoff.getDate() - period);
   return active.filter(r => r._date && r._date >= cutoff);
 }
 
-// ═══════════════════════════════════════
-// CALCULAR MÉTRICAS
-// ═══════════════════════════════════════
-function calcMetrics(rows) {
-  let inv=0, msg=0, ag=0, ventas=0, fac=0;
+// ══════════════════════════════════════════════════════
+// CALCULAR TOTALES
+// ══════════════════════════════════════════════════════
+function totals(rows) {
+  let inv=0,conv=0,cconvSum=0,ag=0,apart=0,ven=0,cacSum=0,liq=0,roasSum=0,roasN=0;
   rows.forEach(r => {
-    inv    += r._inv;
-    msg    += r._msg;
-    ag     += r._ag;
-    ventas += r._ventas;
-    fac    += r._fac;
+    inv      += r._inv;
+    conv     += r._conv;
+    ag       += r._ag;
+    apart    += r._apart;
+    ven      += r._ven;
+    liq      += r._liq;
+    if (r._cconv > 0) cconvSum += r._cconv;
+    if (r._cac   > 0) cacSum   += r._cac;
+    if (r._roas  > 0) { roasSum += r._roas; roasN++; }
   });
-  const roas = inv > 0 ? fac / inv : 0;
-  const cpm  = msg > 0 ? inv / msg  : 0;
-  const cag  = ag  > 0 ? inv / ag   : 0;
-  const cac  = ventas > 0 ? inv / ventas : 0;
-  return { inv, msg, ag, ventas, fac, roas, cpm, cag, cac, count: rows.length };
+  const roas   = inv > 0 ? liq / inv : 0;
+  const cconv  = conv > 0 ? inv / conv : 0;
+  const cag    = ag > 0   ? inv / ag   : 0;
+  const cac    = ven > 0  ? inv / ven  : 0;
+  return { inv, conv, cconv, ag, apart, ven, cac, liq, roas, count: rows.length };
 }
 
-// ═══════════════════════════════════════
+// ══════════════════════════════════════════════════════
 // AGRUPAR PARA GRÁFICAS
-// ═══════════════════════════════════════
-function groupForChart(rows, days) {
-  // Si es 7 días o menos → por día
-  // Si es 30 días → por semana
-  // Si es más → por mes
-  const byDay   = days <= 7 || days === 1;
-  const byWeek  = days > 7 && days <= 60;
-  // else by month
-
-  const buckets = {};
+// ══════════════════════════════════════════════════════
+function bucket(rows, period) {
+  const byDay = period === 'hoy' || period === 'ayer' || period === 7 || period === 14;
+  const b = {};
   rows.forEach(r => {
     if (!r._date) return;
-    let key;
+    let k;
     if (byDay) {
-      key = r._date.toLocaleDateString('es-MX', {day:'2-digit', month:'short'});
-    } else if (byWeek) {
-      const wn = Math.ceil(r._date.getDate() / 7);
-      key = r._date.toLocaleString('es-MX',{month:'short'}) + ' S' + wn;
+      k = r._date.toLocaleDateString('es-MX',{day:'2-digit',month:'short'});
+    } else if (period <= 60) {
+      const wn = Math.ceil(r._date.getDate()/7);
+      k = r._date.toLocaleString('es-MX',{month:'short'})+' S'+wn;
     } else {
-      key = r._date.toLocaleString('es-MX',{month:'short', year:'2-digit'});
+      k = r._date.toLocaleString('es-MX',{month:'short',year:'2-digit'});
     }
-    if (!buckets[key]) buckets[key] = {inv:0,msg:0,ag:0,ventas:0,fac:0};
-    buckets[key].inv    += r._inv;
-    buckets[key].msg    += r._msg;
-    buckets[key].ag     += r._ag;
-    buckets[key].ventas += r._ventas;
-    buckets[key].fac    += r._fac;
+    if (!b[k]) b[k]={inv:0,conv:0,ag:0,ven:0,liq:0};
+    b[k].inv  += r._inv;
+    b[k].conv += r._conv;
+    b[k].ag   += r._ag;
+    b[k].ven  += r._ven;
+    b[k].liq  += r._liq;
   });
-  return buckets;
+  return b;
 }
 
-// ═══════════════════════════════════════
+// ══════════════════════════════════════════════════════
 // STATE
-// ═══════════════════════════════════════
-let allRows = [];
-let currentDays = 0;
-let currentCfg = null;
-let charts = {};
+// ══════════════════════════════════════════════════════
+let ALL_ROWS = [];
+let CUR_CFG  = null;
+let CHARTS   = {};
 
-// ═══════════════════════════════════════
+// ══════════════════════════════════════════════════════
 // RENDER DASHBOARD
-// ═══════════════════════════════════════
-function renderDash(days) {
-  currentDays = days;
-  const rows = filterByDays(allRows, days);
-  const m = calcMetrics(rows);
-  const buckets = groupForChart(rows, days);
+// ══════════════════════════════════════════════════════
+function renderDash(period) {
+  const rows = filterRows(ALL_ROWS, period);
+  const t    = totals(rows);
+  const b    = bucket(rows, period);
+  const lbls = Object.keys(b);
 
-  // MÉTRICAS
-  document.getElementById('metrics-area').innerHTML = `
-    <div class="metrics-grid">
-      <div class="m-card"><div class="m-label">Inversión</div><div class="m-val">${fmtMXN(m.inv)}</div><div class="m-delta" style="color:var(--text-muted)">MXN</div></div>
-      <div class="m-card"><div class="m-label">Mensajes</div><div class="m-val">${m.msg}</div><div class="m-delta" style="color:var(--text-muted)">costo/msg: ${m.cpm>0?fmtMXN(m.cpm):'—'}</div></div>
-      <div class="m-card"><div class="m-label">Agendados</div><div class="m-val">${m.ag}</div><div class="m-delta" style="color:var(--text-muted)">costo/ag: ${m.cag>0?fmtMXN(m.cag):'—'}</div></div>
-      <div class="m-card"><div class="m-label">Ventas</div><div class="m-val">${m.ventas}</div><div class="m-delta up">cierres confirmados</div></div>
-      <div class="m-card"><div class="m-label">Facturación</div><div class="m-val">${fmtMXN(m.fac)}</div><div class="m-delta up">MXN</div></div>
-      <div class="m-card"><div class="m-label">ROAS</div><div class="m-val">${m.roas>0?m.roas.toFixed(1)+'x':'—'}</div><div class="m-delta ${m.roas>=5?'up':m.roas>=2?'':'dn'}">${m.roas>=5?'por encima de meta':m.roas>=2?'en proceso':'por debajo de meta'}</div></div>
-      <div class="m-card"><div class="m-label">CAC</div><div class="m-val">${m.cac>0?fmtMXN(m.cac):'—'}</div><div class="m-delta" style="color:var(--text-muted)">costo adquisición</div></div>
-      <div class="m-card"><div class="m-label">Días activos</div><div class="m-val">${m.count}</div><div class="m-delta" style="color:var(--text-muted)">con datos</div></div>
-    </div>`;
+  // — MÉTRICAS —
+  document.getElementById('d-metrics').innerHTML = `
+  <div class="mg">
+    <div class="mc"><div class="ml">Inversión</div><div class="mv">${mxn(t.inv)}</div><div class="md">MXN gastado en ads</div></div>
+    <div class="mc"><div class="ml">Conversaciones WA</div><div class="mv">${t.conv}</div><div class="md">costo/conv: ${t.cconv>0?mxn(t.cconv):'—'}</div></div>
+    <div class="mc"><div class="ml">Agendados</div><div class="mv">${t.ag}</div><div class="md">costo/ag: ${t.ag>0?mxn(t.inv/t.ag):'—'}</div></div>
+    <div class="mc"><div class="ml">Apartado x agenda</div><div class="mv">${mxn(t.apart)}</div><div class="md">MXN en apartados</div></div>
+    <div class="mc"><div class="ml">Ventas</div><div class="mv">${t.ven}</div><div class="md up">cierres confirmados</div></div>
+    <div class="mc"><div class="ml">CAC</div><div class="mv">${t.cac>0?mxn(t.cac):'—'}</div><div class="md">costo adquisición</div></div>
+    <div class="mc"><div class="ml">Liquidación</div><div class="mv">${mxn(t.liq)}</div><div class="md up">MXN facturado</div></div>
+    <div class="mc"><div class="ml">ROAS</div><div class="mv">${t.roas>0?t.roas.toFixed(1)+'x':'—'}</div><div class="md ${t.roas>=5?'up':t.roas>=2?'':'dn'}">${t.roas>=5?'por encima de meta':t.roas>=2?'en proceso':'por debajo de meta'}</div></div>
+  </div>`;
 
-  // GRÁFICAS
-  const labels = Object.keys(buckets);
-  const chartHtml = `
-    <div class="charts-row">
-      <div class="chart-card"><div class="chart-title">Mensajes vs agendados</div><div style="position:relative;height:200px;"><canvas id="c1" role="img" aria-label="Mensajes y agendados"></canvas></div></div>
-      <div class="chart-card"><div class="chart-title">Ventas</div><div style="position:relative;height:200px;"><canvas id="c2" role="img" aria-label="Ventas por período"></canvas></div></div>
-    </div>
-    <div class="chart-card" style="margin-bottom:14px;"><div class="chart-title">Facturación vs inversión MXN</div><div style="position:relative;height:200px;"><canvas id="c3" role="img" aria-label="Facturación vs inversión"></canvas></div></div>`;
-  document.getElementById('charts-area').innerHTML = chartHtml;
+  // — GRÁFICAS —
+  document.getElementById('d-charts').innerHTML = `
+  <div class="cr">
+    <div class="cc"><div class="ct">Conversaciones vs agendados</div><div style="position:relative;height:200px"><canvas id="c1"></canvas></div></div>
+    <div class="cc"><div class="ct">Ventas por período</div><div style="position:relative;height:200px"><canvas id="c2"></canvas></div></div>
+  </div>
+  <div class="cc"><div class="ct">Liquidación vs inversión MXN</div><div style="position:relative;height:200px"><canvas id="c3"></canvas></div></div>`;
 
-  if (charts.c1) charts.c1.destroy();
-  if (charts.c2) charts.c2.destroy();
-  if (charts.c3) charts.c3.destroy();
+  Object.values(CHARTS).forEach(c => { try{ c.destroy() }catch(e){} });
+  CHARTS = {};
 
-  const baseOpts = {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { ticks: { color:'#9CA3AF', font:{size:11}, maxRotation:45 }, grid: { color:'rgba(0,0,0,0.05)' } },
-      y: { ticks: { color:'#9CA3AF', font:{size:11} }, grid: { color:'rgba(0,0,0,0.05)' } }
+  const bo = {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{ticks:{color:'#9CA3AF',font:{size:10},maxRotation:45},grid:{color:'rgba(0,0,0,0.05)'}},
+      y:{ticks:{color:'#9CA3AF',font:{size:10}},grid:{color:'rgba(0,0,0,0.05)'}}
     }
   };
 
-  charts.c1 = new Chart(document.getElementById('c1').getContext('2d'), {
-    type: 'bar',
-    data: { labels, datasets: [
-      { label:'Mensajes',  data: labels.map(k=>Math.round(buckets[k].msg)), backgroundColor:'#1D9E75', borderRadius:4 },
-      { label:'Agendados', data: labels.map(k=>Math.round(buckets[k].ag)),  backgroundColor:'#9FE1CB', borderRadius:4 }
-    ]},
-    options: baseOpts
+  CHARTS.c1 = new Chart(document.getElementById('c1').getContext('2d'),{
+    type:'bar', options:bo,
+    data:{labels:lbls,datasets:[
+      {label:'Conv WA', data:lbls.map(k=>Math.round(b[k].conv)), backgroundColor:'#1D9E75', borderRadius:4},
+      {label:'Agendados', data:lbls.map(k=>Math.round(b[k].ag)),  backgroundColor:'#9FE1CB', borderRadius:4}
+    ]}
+  });
+  CHARTS.c2 = new Chart(document.getElementById('c2').getContext('2d'),{
+    type:'bar', options:bo,
+    data:{labels:lbls,datasets:[
+      {label:'Ventas', data:lbls.map(k=>Math.round(b[k].ven)), backgroundColor:'#1D9E75', borderRadius:4}
+    ]}
+  });
+  CHARTS.c3 = new Chart(document.getElementById('c3').getContext('2d'),{
+    type:'bar', options:bo,
+    data:{labels:lbls,datasets:[
+      {label:'Liquidación', data:lbls.map(k=>Math.round(b[k].liq)), backgroundColor:'#1D9E75', borderRadius:4},
+      {label:'Inversión',   data:lbls.map(k=>Math.round(b[k].inv)), backgroundColor:'#9FE1CB', borderRadius:4}
+    ]}
   });
 
-  charts.c2 = new Chart(document.getElementById('c2').getContext('2d'), {
-    type: 'bar',
-    data: { labels, datasets: [
-      { label:'Ventas', data: labels.map(k=>Math.round(buckets[k].ventas)), backgroundColor:'#1D9E75', borderRadius:4 }
-    ]},
-    options: baseOpts
-  });
-
-  charts.c3 = new Chart(document.getElementById('c3').getContext('2d'), {
-    type: 'bar',
-    data: { labels, datasets: [
-      { label:'Facturación', data: labels.map(k=>Math.round(buckets[k].fac)), backgroundColor:'#1D9E75', borderRadius:4 },
-      { label:'Inversión',   data: labels.map(k=>Math.round(buckets[k].inv)), backgroundColor:'#9FE1CB', borderRadius:4 }
-    ]},
-    options: baseOpts
-  });
-
-  // TABLA DIARIA
-  const tableRows = [...rows].reverse().slice(0, 60);
-  const tableHtml = `
-    <div class="data-table-wrap">
-      <table>
-        <thead><tr><th>Fecha</th><th>Inversión MXN</th><th>Mensajes</th><th>Agendados</th><th>Ventas</th><th>Facturación MXN</th><th>ROAS</th><th>Costo/msg</th><th>Costo/ag</th></tr></thead>
-        <tbody>
-          ${tableRows.map(r => {
-            const roas = r._inv > 0 && r._fac > 0 ? (r._fac/r._inv).toFixed(1)+'x' : '—';
-            const cpm  = r._inv > 0 && r._msg > 0 ? fmtMXN(r._inv/r._msg) : '—';
-            const cag  = r._inv > 0 && r._ag  > 0 ? fmtMXN(r._inv/r._ag)  : '—';
-            return `<tr>
-              <td>${r._dateStr}</td>
-              <td>${r._inv>0?fmtMXN(r._inv):'—'}</td>
-              <td>${r._msg||'—'}</td>
-              <td>${r._ag||'—'}</td>
-              <td>${r._ventas||'—'}</td>
-              <td>${r._fac>0?fmtMXN(r._fac):'—'}</td>
-              <td>${roas}</td>
-              <td>${cpm}</td>
-              <td>${cag}</td>
-            </tr>`;
-          }).join('')}
-        </tbody>
-      </table>
-    </div>`;
-  document.getElementById('table-area').innerHTML = tableHtml;
+  // — TABLA DIARIA —
+  const trows = [...rows].sort((a,b)=>(b._date||0)-(a._date||0)).slice(0,90);
+  document.getElementById('d-table').innerHTML = `
+  <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:10px">Detalle por día</div>
+  <div class="dtw">
+    <table>
+      <thead><tr>
+        <th>Fecha</th>
+        <th>Inversión MXN</th>
+        <th>Conv. WA</th>
+        <th>Costo/conv</th>
+        <th>Agendados</th>
+        <th>Apartado MXN</th>
+        <th>Ventas</th>
+        <th>CAC</th>
+        <th>Liquidación MXN</th>
+        <th>ROAS</th>
+      </tr></thead>
+      <tbody>
+        ${trows.map(r=>`<tr>
+          <td>${r._dstr}</td>
+          <td>${r._inv>0?mxn(r._inv):'—'}</td>
+          <td>${r._conv||'—'}</td>
+          <td>${r._conv>0&&r._inv>0?mxn(r._inv/r._conv):'—'}</td>
+          <td>${r._ag||'—'}</td>
+          <td>${r._apart>0?mxn(r._apart):'—'}</td>
+          <td>${r._ven||'—'}</td>
+          <td>${r._cac>0?mxn(r._cac):'—'}</td>
+          <td>${r._liq>0?mxn(r._liq):'—'}</td>
+          <td>${r._roas>0?r._roas.toFixed(1)+'x':'—'}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+  </div>`;
 }
 
-function setPeriod(el, days) {
-  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('on'));
+function setPeriod(el, p) {
+  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('on'));
   el.classList.add('on');
-  renderDash(days);
+  renderDash(p);
 }
 
-// ═══════════════════════════════════════
-// CARGAR DATOS
-// ═══════════════════════════════════════
+// ══════════════════════════════════════════════════════
+// CARGAR TODAS LAS PESTAÑAS
+// ══════════════════════════════════════════════════════
 async function openClientDash(clientId) {
-  const cfg = CLIENTS_CONFIG.find(c => c.id === clientId);
+  const cfg = CLIENTS.find(c=>c.id===clientId);
   if (!cfg) return;
-  currentCfg = cfg;
+  CUR_CFG = cfg;
 
-  document.getElementById('d-avatar').textContent = cfg.avatar;
+  document.getElementById('d-av').textContent   = cfg.avatar;
   document.getElementById('d-name').textContent = cfg.name;
-  document.getElementById('d-meta').textContent = cfg.specialty + ' · datos en tiempo real';
+  document.getElementById('d-meta').textContent = cfg.specialty + ' · datos en tiempo real desde Google Sheets';
   document.getElementById('d-link').textContent = `trakken-dashboard.vercel.app/cliente/${cfg.id}`;
-  document.getElementById('back-admin-btn').style.display = 'flex';
-  document.getElementById('metrics-area').innerHTML = '<div class="loading-box">Conectando con Google Sheets...</div>';
-  document.getElementById('charts-area').innerHTML = '';
-  document.getElementById('table-area').innerHTML = '';
-
-  // Reset período a "Todo"
-  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('on'));
-  document.querySelectorAll('.ptab')[0].classList.add('on');
+  document.getElementById('back-btn').style.display = 'flex';
+  document.getElementById('d-metrics').innerHTML = '<div class="loading">Conectando con Google Sheets y cargando todas las pestañas...</div>';
+  document.getElementById('d-charts').innerHTML  = '';
+  document.getElementById('d-table').innerHTML   = '';
+  document.querySelectorAll('.ptab').forEach((t,i)=>t.classList.toggle('on',i===0));
 
   show('v-dash');
 
   try {
-    const data = await fetchSheet(cfg.sheetId, cfg.sheetName);
+    // Lee TODAS las pestañas en paralelo
+    const tabResults = await Promise.all(cfg.sheets.map(s => fetchTab(cfg.sheetId, s)));
 
-    // Pre-procesar rows con columnas normalizadas
-    allRows = data.rows.map(r => {
-      const invCol = data.headers.find(h => h.toLowerCase().includes('inver') && !h.toLowerCase().includes('usd'));
-      const inv = invCol ? parseNum(r[invCol]) : 0;
-      return {
-        _raw:     r,
-        _date:    parseDate(r['Fecha'] || r['FECHA'] || ''),
-        _dateStr: r['Fecha'] || r['FECHA'] || '',
-        _inv:     inv,
-        _msg:     parseNum(r['Mensajes']),
-        _ag:      parseNum(r['Agendados']),
-        _ventas:  parseNum(r['ventas'] || r['Ventas'] || ''),
-        _fac:     parseNum(r['Facturación mx'] || r['Facturacion mx'] || r['facturación mx'] || '')
-      };
-    }).filter(r => r._date !== null);
+    // Aplana y normaliza
+    ALL_ROWS = tabResults.flat().map(normalizeRow).filter(r =>
+      r._inv > 0 || r._conv > 0 || r._ven > 0 || r._liq > 0 || r._ag > 0
+    );
 
-    renderDash(0);
+    if (ALL_ROWS.length === 0) {
+      document.getElementById('d-metrics').innerHTML =
+        '<div class="loading">⚠️ No se encontraron datos. Verifica que el Sheet sea público (solo lectura).</div>';
+      return;
+    }
+
+    // Por defecto muestra "Hoy" pero si no hay datos hoy, cambia a todo
+    const hoy = filterRows(ALL_ROWS, 'hoy');
+    if (hoy.length === 0) {
+      document.querySelectorAll('.ptab').forEach((t,i)=>t.classList.toggle('on',i===7));
+      renderDash(0);
+    } else {
+      renderDash('hoy');
+    }
+
   } catch(e) {
-    document.getElementById('metrics-area').innerHTML =
-      '<div class="loading-box">⚠️ Error al cargar datos. Verifica que el Sheet sea público (solo lectura).</div>';
+    document.getElementById('d-metrics').innerHTML =
+      '<div class="loading">⚠️ Error al cargar. Asegúrate que el Sheet esté en público (solo lectura).</div>';
   }
 }
 
-// ═══════════════════════════════════════
-// ADMIN
-// ═══════════════════════════════════════
+// ══════════════════════════════════════════════════════
+// INIT ADMIN
+// ══════════════════════════════════════════════════════
 async function initAdmin() {
-  document.getElementById('admin-date').textContent =
-    new Date().toLocaleDateString('es-MX', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  document.getElementById('a-date').textContent =
+    new Date().toLocaleDateString('es-MX',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 
-  const results = await Promise.all(CLIENTS_CONFIG.map(async cfg => {
+  const results = await Promise.all(CLIENTS.map(async cfg => {
     try {
-      const data = await fetchSheet(cfg.sheetId, cfg.sheetName);
-      const rows = data.rows.map(r => {
-        const invCol = data.headers.find(h => h.toLowerCase().includes('inver') && !h.toLowerCase().includes('usd'));
-        return {
-          _inv:    invCol ? parseNum(r[invCol]) : 0,
-          _msg:    parseNum(r['Mensajes']),
-          _ag:     parseNum(r['Agendados']),
-          _ventas: parseNum(r['ventas'] || r['Ventas'] || ''),
-          _fac:    parseNum(r['Facturación mx'] || r['Facturacion mx'] || '')
-        };
-      }).filter(r => r._inv > 0 || r._msg > 0 || r._ventas > 0);
-      return { cfg, m: calcMetrics(rows) };
-    } catch(e) { return { cfg, m: null }; }
+      const tabs = await Promise.all(cfg.sheets.map(s => fetchTab(cfg.sheetId, s)));
+      const rows = tabs.flat().map(normalizeRow).filter(r => r._inv>0||r._conv>0||r._ven>0||r._liq>0);
+      return { cfg, t: totals(rows) };
+    } catch(e) { return { cfg, t: null }; }
   }));
 
-  document.getElementById('active-count').textContent = `${results.length} cliente${results.length!==1?'s':''} activo${results.length!==1?'s':''}`;
+  document.getElementById('a-count').textContent =
+    `${results.length} cliente${results.length!==1?'s':''} activo${results.length!==1?'s':''}`;
 
-  let tInv=0, tV=0, tF=0, rSum=0, rN=0;
-  results.forEach(({m}) => {
-    if (!m) return;
-    tInv += m.inv; tV += m.ventas; tF += m.fac;
-    if (m.roas > 0) { rSum += m.roas; rN++; }
+  let tI=0,tV=0,tL=0,rS=0,rN=0;
+  results.forEach(({t})=>{
+    if(!t) return;
+    tI+=t.inv; tV+=t.ven; tL+=t.liq;
+    if(t.roas>0){rS+=t.roas;rN++;}
   });
-  document.getElementById('tot-inv').textContent    = fmtMXN(tInv);
-  document.getElementById('tot-ventas').textContent = tV;
-  document.getElementById('tot-fac').textContent    = fmtMXN(tF);
-  document.getElementById('tot-roas').textContent   = rN > 0 ? (rSum/rN).toFixed(1)+'x' : '—';
+  document.getElementById('a-inv').textContent  = mxn(tI);
+  document.getElementById('a-ven').textContent  = tV;
+  document.getElementById('a-liq').textContent  = mxn(tL);
+  document.getElementById('a-roas').textContent = rN>0?(rS/rN).toFixed(1)+'x':'—';
 
-  const tbody = document.getElementById('clients-tbody');
+  const tbody = document.getElementById('a-tbody');
   tbody.innerHTML = '';
-  results.forEach(({cfg, m}) => {
-    if (!m) return;
-    const st = m.roas >= 5 ? ['pill-green','En meta'] : m.roas >= 2 ? ['pill-amber','En proceso'] : ['pill-red','Bajo meta'];
+  results.forEach(({cfg,t})=>{
+    if(!t) return;
+    const st = t.roas>=5?['pg','En meta']:t.roas>=2?['pa','En proceso']:['pr','Bajo meta'];
     tbody.innerHTML += `<tr>
-      <td><strong>${cfg.name}</strong><br><span style="font-size:11px;color:var(--text-muted)">${cfg.specialty}</span></td>
-      <td>${fmtMXN(m.inv)}</td><td>${m.msg}</td><td>${m.ag}</td><td>${m.ventas}</td>
-      <td>${fmtMXN(m.fac)}</td><td>${m.roas>0?m.roas.toFixed(1)+'x':'—'}</td>
+      <td><strong>${cfg.name}</strong><br><span style="font-size:11px;color:var(--muted)">${cfg.specialty}</span></td>
+      <td>${mxn(t.inv)}</td>
+      <td>${t.conv}</td>
+      <td>${t.ag}</td>
+      <td>${t.ven}</td>
+      <td>${mxn(t.liq)}</td>
+      <td>${t.roas>0?t.roas.toFixed(1)+'x':'—'}</td>
       <td><span class="pill ${st[0]}">${st[1]}</span></td>
-      <td><button class="view-btn" onclick="openClientDash('${cfg.id}')">Ver dashboard</button></td>
+      <td><button class="vbtn" onclick="openClientDash('${cfg.id}')">Ver dashboard</button></td>
     </tr>`;
   });
 }
 
+// ══════════════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════════════
 function show(id) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 function goAdmin() { show('v-admin'); initAdmin(); }
 function copyLink() {
   navigator.clipboard.writeText(document.getElementById('d-link').textContent).catch(()=>{});
-  const btn = document.getElementById('copy-btn');
-  btn.textContent = '✓ Copiado';
-  setTimeout(()=>btn.textContent='Copiar link', 2000);
+  const b = document.getElementById('copy-btn');
+  b.textContent='✓ Copiado';
+  setTimeout(()=>b.textContent='Copiar link',2000);
 }
 
+// ══════════════════════════════════════════════════════
 // ROUTING
-function checkRoute() {
-  const match = window.location.pathname.match(/\/cliente\/(.+)/);
-  if (match) {
-    const cfg = CLIENTS_CONFIG.find(c => c.id === match[1]);
-    if (cfg) { document.getElementById('back-admin-btn').style.display = 'none'; openClientDash(match[1]); return; }
+// ══════════════════════════════════════════════════════
+(function(){
+  const m = window.location.pathname.match(/\/cliente\/(.+)/);
+  if (m && CLIENTS.find(c=>c.id===m[1])) {
+    document.getElementById('back-btn').style.display='none';
+    openClientDash(m[1]);
+  } else {
+    initAdmin();
   }
-  initAdmin();
-}
-checkRoute();
+})();
 </script>
 </body>
 </html>
